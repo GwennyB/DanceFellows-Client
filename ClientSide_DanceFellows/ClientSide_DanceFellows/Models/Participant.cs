@@ -13,7 +13,11 @@ namespace ClientSide_DanceFellows.Models
         public string LastName { get; set; }
         public Level MinLevel { get; set; }
         public Level MaxLevel { get; set; }
-}
+
+        //navigation properties
+        public RegisteredCompetitor RegisteredCompetitor { get; set; }
+
+    }
 
     public enum Level
     {
