@@ -11,7 +11,7 @@ using ClientSide_DanceFellows.Models.Interfaces;
 
 namespace ClientSide_DanceFellows.Controllers
 {
-    public class ParticipantController
+    public class ParticipantController : Controller
     {
     }
 }

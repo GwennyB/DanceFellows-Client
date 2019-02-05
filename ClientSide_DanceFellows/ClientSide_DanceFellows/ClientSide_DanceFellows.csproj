@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\Class.cs" />
-    <Compile Remove="Controllers\CompetitionController.cs" />
     <Compile Remove="Controllers\HelloWorldController.cs" />
     <Compile Remove="Models\TestAPI.cs" />
   </ItemGroup>
