@@ -177,5 +177,20 @@ namespace TableTestSuite
             Participant testParticipant = CreateParticipant();
             Assert.Equal(Level.Intermediate, testParticipant.MinLevel);
         }
+
+        [Fact]
+        public void TestMaxLevelSet()
+        {
+            Participant testParticipant = new Participant();
+            testParticipant.MaxLevel = Level.AllStar;
+            Assert.Equal(Level.AllStar, testParticipant.MaxLevel);
+        }
+
+        [Fact]
+        public void TestMaxLevelGet()
+        {
+            Participant testParticipant = CreateParticipant();
+            Assert.Equal(Level.Advanced, testParticipant.MaxLevel);
+        }
     }
 }
