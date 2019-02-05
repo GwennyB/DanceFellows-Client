@@ -192,5 +192,31 @@ namespace TableTestSuite
             Participant testParticipant = CreateParticipant();
             Assert.Equal(Level.Advanced, testParticipant.MaxLevel);
         }
+
+        //TODO: Nav property tests
+    }
+
+    public class RegisteredCompetitorTests
+    {
+        public RegisteredCompetitor CreateRegisteredCompetitor()
+        {
+            RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { ParticipantID = 1, CompetitionID = 1, Role = Role.Lead, Placement = Placement.Position1, BibNumber = 100, ChiefJudgeScore = 9, JudgeOneScore = 9, JudgeTwoScore = 9, JudgeThreeScore = 9, JudgeFourScore = 9, JudgeFiveScore = 9, JudgeSixScore = 9 };
+            return testRegisteredCompetitor;
+        }
+
+        [Fact]
+        public void ParticipantIDSet()
+        {
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            testRegComp.ParticipantID = 1;
+            Assert.Equal(1, testRegComp.ParticipantID);
+        }
+
+        [Fact]
+        public void ParticipantIDGet()
+        {
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
+            Assert.Equal(1, testRegComp.ParticipantID);
+        }
     }
 }
