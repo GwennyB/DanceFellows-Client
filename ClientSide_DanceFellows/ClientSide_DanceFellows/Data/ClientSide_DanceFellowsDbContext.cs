@@ -14,7 +14,7 @@ namespace ClientSide_DanceFellows.Data
         {
 
         }
-
+         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Add Seeds here.

@@ -13,7 +13,7 @@ namespace ClientSide_DanceFellows.Models.Services
     /// </summary>
     public class CompetitionManagementService : ICompetitionManager
     {
-
+        //test
         private ClientSideDanceFellowsDbContext _context { get; }
 
         /// <summary>
