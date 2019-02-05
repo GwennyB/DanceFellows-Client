@@ -15,7 +15,8 @@ namespace ClientSide_DanceFellows.Models
         public Level MaxLevel { get; set; }
 
         //navigation properties
-        public ICollection<RegisteredCompetitor> RegisteredCompetitor { get; set; }
+        public ICollection<RegisteredCompetitor> RegisteredCompetitors { get; set; }
+
     }
 
     public enum Level
