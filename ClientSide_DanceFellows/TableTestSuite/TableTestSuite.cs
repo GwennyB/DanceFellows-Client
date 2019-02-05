@@ -10,10 +10,11 @@ namespace TableTestSuite
 
         public Competition CreateComp()
         {
-            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor();
-            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor();
+            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
             List<RegisteredCompetitor> competitorList = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
-            Competition testComp = new Competition { ID = 1, CompType = CompType.JackAndJill, Level = Level.Newcomer, RegisteredCompetitors = competitorList };
+            ICollection<RegisteredCompetitor> competitors = competitorList;
+            Competition testComp = new Competition { ID = 1, CompType = CompType.JackAndJill, Level = Level.Newcomer, RegisteredCompetitors = competitors };
             return testComp;
         }
 
@@ -77,10 +78,44 @@ namespace TableTestSuite
         public void TestRegisteredCompetitorsGet()
         {
             Competition testComp = CreateComp();
-            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor();
-            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor();
-            List<RegisteredCompetitor> competitorList = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
-            Assert.Equal(competitorList, testComp.RegisteredCompetitors);
+            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
+            List<RegisteredCompetitor> testCompetitors = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
+
+            ICollection<RegisteredCompetitor> expected = testCompetitors;
+            ICollection<RegisteredCompetitor> actual = testComp.RegisteredCompetitors;
+
+            RegisteredCompetitor[] expectedArray = new RegisteredCompetitor[expected.Count];
+            expected.CopyTo(expectedArray, 0);
+
+            RegisteredCompetitor[] actualArray = new RegisteredCompetitor[actual.Count];
+            actual.CopyTo(actualArray, 0);
+
+            Assert.Equal(expectedArray, actualArray);
+        }
+    }
+
+    public class ParticipantTests
+    {
+        public Participant CreateParticipant()
+        {
+            Participant testParticipant = new Participant() {ID=1, WSC_ID=123, FirstName="First", LastName="Last", MinLevel=Level.Intermediate, MaxLevel=Level.Advanced };
+            return testParticipant;
+        }
+
+        [Fact]
+        public void TestIDSet()
+        {
+            Participant testParticipant = new Participant();
+            testParticipant.ID = 1;
+            Assert.Equal(1, testParticipant.ID);
+        }
+
+        [Fact]
+        public void TestIDGet()
+        {
+            Participant testParticipant = CreateParticipant();
+            Assert.Equal(1, testParticipant.ID);
         }
     }
 }
