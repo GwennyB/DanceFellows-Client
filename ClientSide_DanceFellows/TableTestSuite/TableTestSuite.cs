@@ -368,5 +368,20 @@ namespace TableTestSuite
             RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
             Assert.Equal(9, testRegComp.JudgeFiveScore);
         }
+
+        [Fact]
+        public void JudgeSixScoreSet()
+        {
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            testRegComp.JudgeSixScore = 8;
+            Assert.Equal(8, testRegComp.JudgeSixScore);
+        }
+
+        [Fact]
+        public void JudgeSixScoreGet()
+        {
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
+            Assert.Equal(9, testRegComp.JudgeSixScore);
+        }
     }
 }
