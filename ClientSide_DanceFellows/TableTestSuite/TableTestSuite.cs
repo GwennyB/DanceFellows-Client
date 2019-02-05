@@ -142,10 +142,25 @@ namespace TableTestSuite
         }
 
         [Fact]
-        public void TestLastNameGet()
+        public void TestFirstNameGet()
         {
             Participant testParticipant = CreateParticipant();
             Assert.Equal("First", testParticipant.FirstName);
+        }
+
+        [Fact]
+        public void TestLastNameSet()
+        {
+            Participant testParticipant = new Participant();
+            testParticipant.LastName = "Doe";
+            Assert.Equal("Doe", testParticipant.LastName);
+        }
+
+        [Fact]
+        public void TestLastNameGet()
+        {
+            Participant testParticipant = CreateParticipant();
+            Assert.Equal("Last", testParticipant.LastName);
         }
     }
 }
