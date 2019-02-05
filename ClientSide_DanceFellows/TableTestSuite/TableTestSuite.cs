@@ -162,5 +162,20 @@ namespace TableTestSuite
             Participant testParticipant = CreateParticipant();
             Assert.Equal("Last", testParticipant.LastName);
         }
+
+        [Fact]
+        public void TestMinLevelSet()
+        {
+            Participant testParticipant = new Participant();
+            testParticipant.MinLevel = Level.Newcomer;
+            Assert.Equal(Level.Newcomer, testParticipant.MinLevel);
+        }
+
+        [Fact]
+        public void TestMinLevelGet()
+        {
+            Participant testParticipant = CreateParticipant();
+            Assert.Equal(Level.Intermediate, testParticipant.MinLevel);
+        }
     }
 }
