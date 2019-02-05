@@ -10,11 +10,7 @@ namespace TableTestSuite
 
         public Competition CreateComp()
         {
-            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
-            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
             Competition testComp = new Competition { ID = 1, CompType = CompType.JackAndJill, Level = Level.Newcomer };
-            testComp.RegisteredCompetitors.Add(testCompetitor1);
-            testComp.RegisteredCompetitors.Add(testCompetitor2);
             return testComp;
         }
 
@@ -400,7 +396,7 @@ namespace TableTestSuite
         [Fact]
         public void ParticipantSet()
         {
-            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
             Participant testParticipant = new Participant { ID=1, FirstName = "Jane", LastName="Doe" };
             testRegComp.Participant = testParticipant;
             Assert.Equal(testParticipant, testRegComp.Participant);
@@ -412,6 +408,23 @@ namespace TableTestSuite
             Participant testParticipant = new Participant { ID = 1, FirstName = "Jane", LastName = "Doe" };
             RegisteredCompetitor testRegComp = new RegisteredCompetitor { Participant=testParticipant};
             Assert.Equal(testParticipant, testRegComp.Participant);
+        }
+
+        [Fact]
+        public void CompetitionSet()
+        {
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
+            Competition testComp = new Competition { ID = 1, CompType = CompType.Classic };
+            testRegComp.Competition = testComp;
+            Assert.Equal(testComp, testRegComp.Competition);
+        }
+
+        [Fact]
+        public void CompetitionGet()
+        {
+            Competition testComp = new Competition { ID = 1, CompType = CompType.Classic };
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor { Competition=testComp };
+            Assert.Equal(testComp, testRegComp.Competition);
         }
     }
 }
