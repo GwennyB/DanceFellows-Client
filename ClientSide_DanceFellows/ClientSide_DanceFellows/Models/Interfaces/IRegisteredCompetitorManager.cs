@@ -11,10 +11,10 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         Task CreateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
 
         //Read An RegisteredCompetitor
-        Task<RegisteredCompetitor> GetRegisteredCompetitor(int id);
+        Task<RegisteredCompetitor> GetRegisteredCompetitor(int participantID, int competitionID);
 
         //Read ALL RegisteredCompetitor
-        Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitor();
+        Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors();
 
         //Update A RegisteredCompetitor
         void UpdateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
@@ -22,10 +22,10 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         //Delete A RegisteredCompetitor
         void DeleteRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
 
-        void DeleteRegisteredCompetitor(int id);
+        void DeleteRegisteredCompetitor(int participantID, int competitionID);
 
         //Search RegisteredCompetitor
-        Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(int bibNumber);
+        Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(int competitionID);
 
         //Navagation Properties
 
@@ -34,6 +34,12 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 
         //Adds RegisteredCompetitor to Competition nav props
         Task AddCompetitionAssociation(RegisteredCompetitor registeredCompetitor);
+
+        //Adds RegisteredCompetitor to Participant nav props
+        Task RemoveParticipantAssociation(RegisteredCompetitor registeredCompetitor);
+
+        //Adds RegisteredCompetitor to Competition nav props
+        Task RemoveCompetitionAssociation(RegisteredCompetitor registeredCompetitor);
 
         //TODO: Add submit to API Task
     }
