@@ -233,5 +233,20 @@ namespace TableTestSuite
             RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
             Assert.Equal(1, testRegComp.CompetitionID);
         }
+
+        [Fact]
+        public void RoleSet()
+        {
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            testRegComp.Role = Role.Follow;
+            Assert.Equal(Role.Follow, testRegComp.Role);
+        }
+
+        [Fact]
+        public void RoleGet()
+        {
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
+            Assert.Equal(Role.Lead, testRegComp.Role);
+        }
     }
 }
