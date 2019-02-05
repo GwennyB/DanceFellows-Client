@@ -132,5 +132,20 @@ namespace TableTestSuite
             Participant testParticipant = CreateParticipant();
             Assert.Equal(123, testParticipant.WSC_ID);
         }
+
+        [Fact]
+        public void TestFirstNameSet()
+        {
+            Participant testParticipant = new Participant();
+            testParticipant.FirstName = "Jane";
+            Assert.Equal("Jane", testParticipant.FirstName);
+        }
+
+        [Fact]
+        public void TestLastNameGet()
+        {
+            Participant testParticipant = CreateParticipant();
+            Assert.Equal("First", testParticipant.FirstName);
+        }
     }
 }
