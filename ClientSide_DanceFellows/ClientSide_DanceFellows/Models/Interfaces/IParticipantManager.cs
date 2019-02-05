@@ -25,7 +25,7 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         void DeleteParticipant(int id);
 
         //Search Participants
-        Task<IEnumerable<Competition>> SearchParticipants(string lastName);
+        Task<IEnumerable<Participant>> SearchParticipants(string lastName);
 
         //Navagation Properties
 
