@@ -67,8 +67,8 @@ namespace TableTestSuite
         public void TestRegisteredCompetitorsSet()
         {
             Competition testComp = new Competition();
-            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor();
-            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor();
+            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
             List<RegisteredCompetitor> competitorList = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
             testComp.RegisteredCompetitors = competitorList;
             Assert.Equal(competitorList, testComp.RegisteredCompetitors);
@@ -185,7 +185,28 @@ namespace TableTestSuite
             Assert.Equal(Level.Advanced, testParticipant.MaxLevel);
         }
 
-        //TODO: Nav property tests
+        [Fact]
+        public void TestRegisteredCompetitorsSet()
+        {
+            Participant testParticipant = new Participant();
+            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 2, ParticipantID = 1 };
+            List<RegisteredCompetitor> competitorList = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
+            testParticipant.RegisteredCompetitors = competitorList;
+            Assert.Equal(competitorList, testParticipant.RegisteredCompetitors);
+        }
+
+        [Fact]
+        public void TestRegisteredCompetitorsGet()
+        {
+            RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+            RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 2, ParticipantID = 1 };
+            List<RegisteredCompetitor> testCompetitors = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
+
+            Participant testParticipant = new Participant { RegisteredCompetitors = testCompetitors };
+
+            Assert.Same(testCompetitors, testParticipant.RegisteredCompetitors);
+        }
     }
 
     public class RegisteredCompetitorTests
