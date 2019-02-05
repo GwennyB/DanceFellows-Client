@@ -263,5 +263,20 @@ namespace TableTestSuite
             RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
             Assert.Equal(Placement.Position1, testRegComp.Placement);
         }
+
+        [Fact]
+        public void BibNumberSet()
+        {
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            testRegComp.BibNumber = 1234;
+            Assert.Equal(1234, testRegComp.BibNumber);
+        }
+
+        [Fact]
+        public void BibNumberGet()
+        {
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
+            Assert.Equal(100, testRegComp.BibNumber);
+        }
     }
 }
