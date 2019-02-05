@@ -12,9 +12,9 @@ namespace TableTestSuite
         {
             RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
             RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
-            List<RegisteredCompetitor> competitorList = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
-            ICollection<RegisteredCompetitor> competitors = competitorList;
-            Competition testComp = new Competition { ID = 1, CompType = CompType.JackAndJill, Level = Level.Newcomer, RegisteredCompetitors = competitors };
+            Competition testComp = new Competition { ID = 1, CompType = CompType.JackAndJill, Level = Level.Newcomer };
+            testComp.RegisteredCompetitors.Add(testCompetitor1);
+            testComp.RegisteredCompetitors.Add(testCompetitor2);
             return testComp;
         }
 
@@ -77,21 +77,13 @@ namespace TableTestSuite
         [Fact]
         public void TestRegisteredCompetitorsGet()
         {
-            Competition testComp = CreateComp();
             RegisteredCompetitor testCompetitor1 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
             RegisteredCompetitor testCompetitor2 = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
             List<RegisteredCompetitor> testCompetitors = new List<RegisteredCompetitor>() { testCompetitor1, testCompetitor2 };
 
-            ICollection<RegisteredCompetitor> expected = testCompetitors;
-            ICollection<RegisteredCompetitor> actual = testComp.RegisteredCompetitors;
+            Competition testComp = new Competition { RegisteredCompetitors = testCompetitors };
 
-            RegisteredCompetitor[] expectedArray = new RegisteredCompetitor[expected.Count];
-            expected.CopyTo(expectedArray, 0);
-
-            RegisteredCompetitor[] actualArray = new RegisteredCompetitor[actual.Count];
-            actual.CopyTo(actualArray, 0);
-
-            Assert.Equal(expectedArray, actualArray);
+            Assert.Same(testCompetitors, testComp.RegisteredCompetitors);
         }
     }
 
