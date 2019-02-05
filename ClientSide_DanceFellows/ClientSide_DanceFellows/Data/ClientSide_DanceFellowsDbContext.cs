@@ -17,6 +17,12 @@ namespace ClientSide_DanceFellows.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Add Seeds here.
         }
+
+        //Reference to different tables.
+        public DbSet<Competition> Competitions { get; set; }
+        public DbSet<Participant> Participants { get; set; }
+        public DbSet<RegisteredCompetitor> RegisteredCompetitors { get; set; }
     }
 }

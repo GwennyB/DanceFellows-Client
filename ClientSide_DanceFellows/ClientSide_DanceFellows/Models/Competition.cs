@@ -12,7 +12,7 @@ namespace ClientSide_DanceFellows.Models
         public Level Level { get; set; }
 
         //navigation properties
-        public RegisteredCompetitor RegisteredCompetitor { get; set; }
+        public ICollection<RegisteredCompetitor> RegisteredCompetitors { get; set; }
     }
 
     public enum CompType

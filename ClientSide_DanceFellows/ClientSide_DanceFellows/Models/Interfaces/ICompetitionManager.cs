@@ -11,9 +11,7 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         Task CreateCompetition(Competition competition);
 
         //Read An Competition
-        Task GetCompetition(int id);
-
-        Task<Competition> GetCompetition(string name);
+        Task<Competition> GetCompetition(int id);
 
         //Read ALL Amenities
         Task<IEnumerable<Competition>> GetCompetitions();
@@ -24,8 +22,15 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         //Delete A Competition
         void DeleteCompetition(Competition competition);
 
+        void DeleteCompetition(int id);
+
         //Search Competitions
-        Task<IEnumerable<Competition>> SearchCompetitions(string searchString);
+        Task<IEnumerable<Competition>> SearchCompetitions(CompType compType);
+
+        //Navagation Properties
+
+        //Read ALL RegisteredCompetitiors
+        Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors(int id);
 
     }
 }
