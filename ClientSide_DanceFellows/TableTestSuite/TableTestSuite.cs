@@ -397,6 +397,21 @@ namespace TableTestSuite
             Assert.Equal(9, testRegComp.JudgeSixScore);
         }
 
-        //TODO: Nav property tests
+        [Fact]
+        public void ParticipantSet()
+        {
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            Participant testParticipant = new Participant { ID=1, FirstName = "Jane", LastName="Doe" };
+            testRegComp.Participant = testParticipant;
+            Assert.Equal(testParticipant, testRegComp.Participant);
+        }
+
+        [Fact]
+        public void ParticipantGet()
+        {
+            Participant testParticipant = new Participant { ID = 1, FirstName = "Jane", LastName = "Doe" };
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor { Participant=testParticipant};
+            Assert.Equal(testParticipant, testRegComp.Participant);
+        }
     }
 }
