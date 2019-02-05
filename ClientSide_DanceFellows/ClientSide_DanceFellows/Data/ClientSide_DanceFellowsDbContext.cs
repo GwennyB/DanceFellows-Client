@@ -17,6 +17,8 @@ namespace ClientSide_DanceFellows.Data
          
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<RegisteredCompetitor>().HasKey(rc => new { rc.CompetitionID, rc.ParticipantID });
+
             //Add Seeds here.
         }
 

@@ -60,7 +60,7 @@ namespace ClientSide_DanceFellows.Models.Services
         /// Collects all Participants and returns them as a list.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<Participant>> GetCParticipants()
+        public async Task<IEnumerable<Participant>> GetParticipants()
         {
             return await _context.Participants.ToListAsync();
         }

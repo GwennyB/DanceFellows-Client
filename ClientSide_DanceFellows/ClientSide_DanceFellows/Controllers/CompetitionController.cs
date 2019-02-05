@@ -153,6 +153,11 @@ namespace ClientSide_DanceFellows.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Enables the nav property so that registered competitors can be associated with a competition
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>List of registered competitiors</returns>
         public async Task<IEnumerable<RegisteredCompetitor>> ShowRegisteredCompetitors(int id)
         {
             var registeredCompetitors = await _context.GetRegisteredCompetitors(id);

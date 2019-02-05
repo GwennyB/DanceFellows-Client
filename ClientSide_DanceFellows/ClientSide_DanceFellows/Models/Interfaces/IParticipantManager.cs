@@ -14,7 +14,7 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         Task<Participant> GetParticipant(int id);
 
         //Read ALL Participants
-        Task<IEnumerable<Participant>> GetCParticipants();
+        Task<IEnumerable<Participant>> GetParticipants();
 
         //Update A Participant
         void UpdateParticipant(Participant participant);
