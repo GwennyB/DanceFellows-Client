@@ -383,5 +383,7 @@ namespace TableTestSuite
             RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
             Assert.Equal(9, testRegComp.JudgeSixScore);
         }
+
+        //TODO: Nav property tests
     }
 }
