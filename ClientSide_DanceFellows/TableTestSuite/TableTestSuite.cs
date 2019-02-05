@@ -248,5 +248,20 @@ namespace TableTestSuite
             RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
             Assert.Equal(Role.Lead, testRegComp.Role);
         }
+
+        [Fact]
+        public void PlacementSet()
+        {
+            RegisteredCompetitor testRegComp = new RegisteredCompetitor();
+            testRegComp.Placement = Placement.Finalled;
+            Assert.Equal(Placement.Finalled, testRegComp.Placement);
+        }
+
+        [Fact]
+        public void PlacementGet()
+        {
+            RegisteredCompetitor testRegComp = CreateRegisteredCompetitor();
+            Assert.Equal(Placement.Position1, testRegComp.Placement);
+        }
     }
 }
