@@ -68,6 +68,7 @@ namespace ClientSide_DanceFellows.Controllers
         {
             if (ModelState.IsValid)
             {
+                await _context.AddCompetitionAssociation(competition);
                 await _context.CreateCompetition(competition);
 
                 return RedirectToAction(nameof(Index));
@@ -111,6 +112,9 @@ namespace ClientSide_DanceFellows.Controllers
             }
             if (ModelState.IsValid)
             {
+                await _context.RemoveCompetitionAssociation(competition);
+                await _context.AddCompetitionAssociation(competition);
+
                 _context.UpdateCompetition(competition);
                 
                 return RedirectToAction(nameof(Index));
@@ -148,11 +152,17 @@ namespace ClientSide_DanceFellows.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Competition competition)
-        { 
+        {
+            await _context.RemoveCompetitionAssociation(competition);
             _context.DeleteCompetition(competition);
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Enables the nav property so that registered competitors can be associated with a competition
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>List of registered competitiors</returns>
         public async Task<IEnumerable<RegisteredCompetitor>> ShowRegisteredCompetitors(int id)
         {
             var registeredCompetitors = await _context.GetRegisteredCompetitors(id);
@@ -162,4 +172,3 @@ namespace ClientSide_DanceFellows.Controllers
 
     }
 }
-

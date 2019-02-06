@@ -13,5 +13,157 @@ namespace ClientSide_DanceFellows.Controllers
 {
     public class RegisteredCompetitorController : Controller
     {
+        private readonly IRegisteredCompetitorManager _context;
+
+        public RegisteredCompetitorController(IRegisteredCompetitorManager context)
+        {
+            _context = context;
+        }
+
+        /// <summary>
+        /// GET: Handles RegisteredCompetitor Index Page Load
+        /// </summary>
+        /// <returns>List of all existing RegisteredCompetitors</returns>
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.GetRegisteredCompetitors());
+        }
+
+        /// <summary>
+        /// GET: This will handle a person pressing the details button on the RegisteredCompetitors Index Page. It will open a view of the selected RegisteredCompetitor.
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <param name="competitiorID"></param>
+        /// <returns>RegisteredCompetitor</returns>
+        public async Task<IActionResult> Details(int participantID, int competitiorID)
+        {
+            if (participantID == 0 || competitiorID == 0)
+            {
+                return NotFound();
+            }
+
+            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitiorID);
+            if (registeredCompetitor == null)
+            {
+                return NotFound();
+            }
+
+            return View(registeredCompetitor);
+        }
+
+        /// <summary>
+        /// GET: Route user to Create view.
+        /// </summary>
+        /// <returns></returns>
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Once the submit button is pressed it will add new RegisteredCompetitor and add RegisteredCompetitor to Competition and Participant nav props then save to database and return user to Index page.
+        /// </summary>
+        /// <param name="competition"></param>
+        /// <returns>Redirect to Index page</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ParticipantID,CompetitionID,Role,Placement,BibNumber,ChiefJudgeScore,JudgeOneScore,JudgeTwoScore,JudgeThreeScore,JudgeFourScore,JudgeFiveScore,JudgeSixScore,Participant,Competition")] RegisteredCompetitor registeredCompetitor)
+        {
+            if (ModelState.IsValid)
+            {
+                await _context.CreateRegisteredCompetitor(registeredCompetitor);
+                await _context.AddCompetitionAssociation(registeredCompetitor);
+                await _context.AddParticipantAssociation(registeredCompetitor);
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(registeredCompetitor);
+        }
+
+        /// <summary>
+        /// When edit is selected will redirect to a edit page with the RegisteredCompetitor information.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Edit(int participantID, int competitiorID)
+        {
+            if (participantID == 0 || competitiorID == 0)
+            {
+                return NotFound();
+            }
+
+            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitiorID);
+            if (registeredCompetitor == null)
+            {
+                return NotFound();
+            }
+            return View(registeredCompetitor);
+        }
+
+        /// <summary>
+        /// When submit button is pressed will check if valid update nave props and will then update DB entry,
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <param name="competitiorID"></param>
+        /// <param name="registeredCompetitor"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int participantID, int competitiorID, [Bind("ParticipantID,CompetitionID,Role,Placement,BibNumber,ChiefJudgeScore,JudgeOneScore,JudgeTwoScore,JudgeThreeScore,JudgeFourScore,JudgeFiveScore,JudgeSixScore,Participant,Competition")] RegisteredCompetitor registeredCompetitor)
+        {
+            if (participantID != registeredCompetitor.ParticipantID || competitiorID != registeredCompetitor.CompetitionID)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                await _context.RemoveCompetitionAssociation(registeredCompetitor);
+                await _context.AddCompetitionAssociation(registeredCompetitor);
+
+                await _context.RemoveParticipantAssociation(registeredCompetitor);
+                await _context.AddParticipantAssociation(registeredCompetitor);
+
+                _context.UpdateRegisteredCompetitor(registeredCompetitor);
+
+                return RedirectToAction(nameof(Index));
+            }
+            return View(registeredCompetitor);
+        }
+
+        /// <summary>
+        /// Searches for registeredCompetitor and returns if found
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>registeredCompetitor</returns>
+        public async Task<IActionResult> Delete(int participantID, int competitiorID)
+        {
+            if (participantID == 0 || competitiorID == 0)
+            {
+                return NotFound();
+            }
+
+            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitiorID);
+            if (registeredCompetitor == null)
+            {
+                return NotFound();
+            }
+            return View(registeredCompetitor);
+        }
+
+        /// <summary>
+        /// Takes in a registeredCompetitor and removes it from the DB and removes nav prop associations
+        /// </summary>
+        /// <param name="competition"></param>
+        /// <returns></returns>
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(RegisteredCompetitor registeredCompetitor)
+        {
+            await _context.RemoveCompetitionAssociation(registeredCompetitor);
+            await _context.RemoveParticipantAssociation(registeredCompetitor);
+            _context.DeleteRegisteredCompetitor(registeredCompetitor);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

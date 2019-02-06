@@ -13,7 +13,7 @@ namespace ClientSide_DanceFellows.Models.Services
     /// </summary>
     public class CompetitionManagementService : ICompetitionManager
     {
-        //test
+        //Selects DB
         private ClientSideDanceFellowsDbContext _context { get; }
 
         /// <summary>
@@ -75,11 +75,11 @@ namespace ClientSide_DanceFellows.Models.Services
         {
             return await _context.Competitions.ToListAsync();
         }
-        
+
         /// <summary>
-        /// Searches ALL Competitions and returns ALL the CONTAIN searchString
+        /// Searches ALL Competitions and returns ALL the CONTAIN compType
         /// </summary>
-        /// <param name="searchString"></param>
+        /// <param name="compType"></param>
         /// <returns></returns>
         public async Task<IEnumerable<Competition>> SearchCompetitions(CompType compType)
         {
@@ -92,7 +92,7 @@ namespace ClientSide_DanceFellows.Models.Services
         }
 
         /// <summary>
-        /// Receives a Competition and removes it from DB
+        /// Receives a Competition and updates it in DB
         /// </summary>
         /// <param name="competition"></param>
         public void UpdateCompetition(Competition competition)
@@ -109,11 +109,33 @@ namespace ClientSide_DanceFellows.Models.Services
         public async Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors(int id)
         {
             var registeredCompetitors = from rc in _context.RegisteredCompetitors
-                               select rc;
+                                        select rc;
 
-            registeredCompetitors = registeredCompetitors.Where(a => a.CompetitionID == id);
+            registeredCompetitors = registeredCompetitors.Where(rc => rc.CompetitionID == id);
 
             return await registeredCompetitors.ToListAsync();
         }
+
+        public async Task AddCompetitionAssociation(Competition competition)
+        {
+            RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.CompetitionID == competition.ID);
+
+            registeredCompetitor.Competition = competition;
+
+            _context.RegisteredCompetitors.Update(registeredCompetitor);
+            _context.SaveChanges();
+        }
+
+        public async Task RemoveCompetitionAssociation(Competition competition)
+        {
+            RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.CompetitionID == competition.ID);
+
+            registeredCompetitor.Competition = null;
+
+            _context.RegisteredCompetitors.Update(registeredCompetitor);
+            _context.SaveChanges();
+        }
+
+        
     }
 }
