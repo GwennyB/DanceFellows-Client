@@ -18,9 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Competition\" />
-    <Folder Include="Views\RegisteredCompetitor\" />
-    <Folder Include="Views\Participant\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

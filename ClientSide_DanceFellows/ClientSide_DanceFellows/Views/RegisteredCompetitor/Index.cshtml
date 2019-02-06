@@ -1,0 +1,102 @@
+﻿@model IEnumerable<ClientSide_DanceFellows.Models.RegisteredCompetitor>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Placement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BibNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChiefJudgeScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeOneScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeTwoScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeThreeScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeFourScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeFiveScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JudgeSixScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Participant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Competition)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Placement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BibNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChiefJudgeScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgeOneScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgeTwoScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgeThreeScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgeFourScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgeFiveScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JudgeSixScore)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Participant.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Competition.ID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

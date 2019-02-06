@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,6 +43,12 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 
         //Adds RegisteredCompetitor to Competition nav props
         Task RemoveCompetitionAssociation(RegisteredCompetitor registeredCompetitor);
+
+        //Searches through participants and only lists ones that have WSC ID
+        SelectList ListValidCompetitors();
+
+        //Show Existing Competitions
+        Task<IEnumerable<Competition>> ListCompetitions();
 
         //TODO: Add submit to API Task
     }
