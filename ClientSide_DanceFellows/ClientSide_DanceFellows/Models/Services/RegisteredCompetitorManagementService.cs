@@ -31,6 +31,13 @@ namespace ClientSide_DanceFellows.Models.Services
         /// <returns></returns>
         public async Task CreateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor)
         {
+            Participant participant = await _context.Participants.FirstOrDefaultAsync(p => p.ID == registeredCompetitor.ParticipantID);
+            registeredCompetitor.Participant = participant;
+
+            Competition competition = await _context.Competitions.FirstOrDefaultAsync(p => p.ID == registeredCompetitor.CompetitionID);
+            registeredCompetitor.Participant = participant;
+            registeredCompetitor.Competition = competition;
+
             _context.RegisteredCompetitors.Add(registeredCompetitor);
             await _context.SaveChangesAsync();
         }
@@ -53,6 +60,7 @@ namespace ClientSide_DanceFellows.Models.Services
         public void DeleteRegisteredCompetitor(int participantID, int competitionID)
         {
             RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.CompetitionID == competitionID && rc.ParticipantID == participantID);
+
             _context.RegisteredCompetitors.Remove(registeredCompetitor);
             _context.SaveChanges();
         }
@@ -177,17 +185,18 @@ namespace ClientSide_DanceFellows.Models.Services
             _context.SaveChanges();
         }
 
-        public SelectList ListValidCompetitors()
-        {
 
-            return new SelectList(_context.Participants, "ID", "ID");
+
+        public async Task<IEnumerable<Participant>> ListValidCompetitors()
+        {
+            var validCompetitors = _context.Participants.Where(vc => vc.WSC_ID != 0);
+            return validCompetitors;
         }
 
         public async Task<IEnumerable<Competition>> ListCompetitions()
         {
-            var competitions = from c in _context.Competitions
-                                   select c;
-            return await competitions.ToListAsync();
+            var competitions = _context.Competitions;
+            return competitions;
         }
     }
 }

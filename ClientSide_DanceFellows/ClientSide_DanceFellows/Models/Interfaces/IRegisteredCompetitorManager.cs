@@ -45,7 +45,7 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         Task RemoveCompetitionAssociation(RegisteredCompetitor registeredCompetitor);
 
         //Searches through participants and only lists ones that have WSC ID
-        SelectList ListValidCompetitors();
+        Task<IEnumerable<Participant>> ListValidCompetitors();
 
         //Show Existing Competitions
         Task<IEnumerable<Competition>> ListCompetitions();
