@@ -189,7 +189,7 @@ namespace ClientSide_DanceFellows.Models.Services
 
         public async Task<IEnumerable<Participant>> ListValidCompetitors()
         {
-            var validCompetitors = _context.Participants.Where(vc => vc.WSC_ID != 0);
+            var validCompetitors = _context.Participants.Where(vc => vc.EligibleCompetitor == true);
             return validCompetitors;
         }
 

@@ -141,14 +141,14 @@ namespace ClientSide_DanceFellows.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>registeredCompetitor</returns>
-        public async Task<IActionResult> Delete(int participantID, int competitiorID)
+        public async Task<IActionResult> Delete(int participantID, int competitionID)
         {
-            if (participantID == 0 || competitiorID == 0)
+            if (participantID == 0 || competitionID == 0)
             {
                 return NotFound();
             }
 
-            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitiorID);
+            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitionID);
             if (registeredCompetitor == null)
             {
                 return NotFound();

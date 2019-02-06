@@ -29,11 +29,15 @@ namespace ClientSide_DanceFellows.Models.Services
         /// <returns></returns>
         public async Task CreateParticipant(Participant participant)
         {
-            if(participant.WSC_ID != 0)
-            {
-                participant.EligibleCompetitors.Add(participant);
-            }
             _context.Participants.Add(participant);
+            await _context.SaveChangesAsync();
+
+            if (participant.WSC_ID != 0)
+            {
+                participant.EligibleCompetitor = true;
+                _context.Update(participant);
+            }
+            
             await _context.SaveChangesAsync();
         }
 
