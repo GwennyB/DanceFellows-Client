@@ -16,6 +16,8 @@ namespace ClientSide_DanceFellows.Models
         [Display(Name = "Competition ID")]
         public int CompetitionID { get; set; }
 
+        public int EventID { get; set; }
+
         [Required(ErrorMessage = "")]
         public Role Role { get; set; }
 
