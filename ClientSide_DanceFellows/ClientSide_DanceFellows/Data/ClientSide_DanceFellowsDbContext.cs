@@ -37,7 +37,8 @@ namespace ClientSide_DanceFellows.Data
                 FirstName = "JimBob",
                 LastName = "Franklin",
                 MinLevel = Level.Novice,
-                MaxLevel = Level.Advanced
+                MaxLevel = Level.Advanced,
+                EligibleCompetitor = true
             }
             );
         }

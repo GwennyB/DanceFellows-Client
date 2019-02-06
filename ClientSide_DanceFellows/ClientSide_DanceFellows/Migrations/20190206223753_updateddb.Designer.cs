@@ -3,14 +3,16 @@ using ClientSide_DanceFellows.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ClientSide_DanceFellows.Migrations
 {
     [DbContext(typeof(ClientSideDanceFellowsDbContext))]
-    partial class ClientSideDanceFellowsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190206223753_updateddb")]
+    partial class updateddb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,8 +89,6 @@ namespace ClientSide_DanceFellows.Migrations
                     b.Property<int>("BibNumber");
 
                     b.Property<int>("ChiefJudgeScore");
-
-                    b.Property<int>("EventID");
 
                     b.Property<int>("JudgeFiveScore");
 
