@@ -8,26 +8,41 @@ namespace ClientSide_DanceFellows.Models
 {
     public class RegisteredCompetitor
     {
+        [Required(ErrorMessage = "")]
         [Display(Name = "Participant ID")]
         public int ParticipantID { get; set; }
+
+        [Required(ErrorMessage = "")]
         [Display(Name = "Competition ID")]
         public int CompetitionID { get; set; }
+
+        [Required(ErrorMessage = "")]
         public Role Role { get; set; }
+
         public Placement Placement { get; set; }
+
+        [Required(ErrorMessage = "Please provide a bib number")]
         [Display(Name = "Bib Number")]
         public int BibNumber { get; set; }
+
         [Display(Name = "Chief Judge Score")]
         public int ChiefJudgeScore { get; set; }
+
         [Display(Name = "Judge One Score")]
         public int JudgeOneScore { get; set; }
+
         [Display(Name = "Judge Two Score")]
         public int JudgeTwoScore { get; set; }
+
         [Display(Name = "Judge Three Score")]
         public int JudgeThreeScore { get; set; }
+
         [Display(Name = "Judge Four Score")]
         public int JudgeFourScore { get; set; }
+
         [Display(Name = "Judge Five Score")]
         public int JudgeFiveScore { get; set; }
+
         [Display(Name = "Judge Six Score")]
         public int JudgeSixScore { get; set; }
 

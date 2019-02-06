@@ -9,8 +9,12 @@ namespace ClientSide_DanceFellows.Models
     public class Competition
     {
         public int ID { get; set; }
+
+        [Required(ErrorMessage = "Please select a competition type")]
         [Display(Name = "Competition Type")]
         public CompType CompType { get; set; }
+
+        [Required(ErrorMessage = "Please select a competition level")]
         public Level Level { get; set; }
 
         //navigation properties
