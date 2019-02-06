@@ -58,8 +58,10 @@ namespace ClientSide_DanceFellows.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Create()
         {
-            var info = _context.ListValidCompetitors();
-            ViewData["ParticipantID"] = new SelectList(info, "ID", "ID");
+
+            ViewData["ParticipantID"] = new SelectList(await _context.ListValidCompetitors(), "ID", "LastName");
+            ViewData["CompetitionID"] = new SelectList(await _context.ListCompetitions(), "ID", "CompType");
+
 
             return View();
         }

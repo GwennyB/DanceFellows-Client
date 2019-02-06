@@ -23,12 +23,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" class="form-control"></select>
+                <select asp-for="Role" asp-items="@Html.GetEnumSelectList(typeof(ClientSide_DanceFellows.Models.Role))"></select>
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Placement" class="control-label"></label>
-                <select asp-for="Placement" class="form-control"></select>
+                <select asp-for="Placement" asp-items="@Html.GetEnumSelectList(typeof(ClientSide_DanceFellows.Models.Placement))"></select>
                 <span asp-validation-for="Placement" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -82,6 +82,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
