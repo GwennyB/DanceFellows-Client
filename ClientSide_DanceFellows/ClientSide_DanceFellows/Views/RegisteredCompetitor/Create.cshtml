@@ -6,79 +6,79 @@
 }
 
 <h1>Create</h1>
-
-<h4>RegisteredCompetitor</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ParticipantID" class="control-label"></label>
-                <select asp-for="ParticipantID" class ="form-control" asp-items="ViewBag.ParticipantID"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="CompetitionID" class="control-label"></label>
-                <select asp-for="CompetitionID" class ="form-control" asp-items="ViewBag.CompetitionID"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Role" class="control-label"></label>
-                <select asp-for="Role" asp-items="@Html.GetEnumSelectList(typeof(ClientSide_DanceFellows.Models.Role))"></select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Placement" class="control-label"></label>
-                <select asp-for="Placement" asp-items="@Html.GetEnumSelectList(typeof(ClientSide_DanceFellows.Models.Placement))"></select>
-                <span asp-validation-for="Placement" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BibNumber" class="control-label"></label>
-                <input asp-for="BibNumber" class="form-control" />
-                <span asp-validation-for="BibNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ChiefJudgeScore" class="control-label"></label>
-                <input asp-for="ChiefJudgeScore" class="form-control" />
-                <span asp-validation-for="ChiefJudgeScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JudgeOneScore" class="control-label"></label>
-                <input asp-for="JudgeOneScore" class="form-control" />
-                <span asp-validation-for="JudgeOneScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JudgeTwoScore" class="control-label"></label>
-                <input asp-for="JudgeTwoScore" class="form-control" />
-                <span asp-validation-for="JudgeTwoScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JudgeThreeScore" class="control-label"></label>
-                <input asp-for="JudgeThreeScore" class="form-control" />
-                <span asp-validation-for="JudgeThreeScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JudgeFourScore" class="control-label"></label>
-                <input asp-for="JudgeFourScore" class="form-control" />
-                <span asp-validation-for="JudgeFourScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JudgeFiveScore" class="control-label"></label>
-                <input asp-for="JudgeFiveScore" class="form-control" />
-                <span asp-validation-for="JudgeFiveScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JudgeSixScore" class="control-label"></label>
-                <input asp-for="JudgeSixScore" class="form-control" />
-                <span asp-validation-for="JudgeSixScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+@{<partial name="_NavbarPartial" />
+    <h4>RegisteredCompetitor</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ParticipantID" class="control-label"></label>
+                    <select asp-for="ParticipantID" class="form-control" asp-items="ViewBag.ParticipantID"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompetitionID" class="control-label"></label>
+                    <select asp-for="CompetitionID" class="form-control" asp-items="ViewBag.CompetitionID"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Role" class="control-label"></label>
+                    <select asp-for="Role" asp-items="@Html.GetEnumSelectList(typeof(ClientSide_DanceFellows.Models.Role))"></select>
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Placement" class="control-label"></label>
+                    <select asp-for="Placement" asp-items="@Html.GetEnumSelectList(typeof(ClientSide_DanceFellows.Models.Placement))"></select>
+                    <span asp-validation-for="Placement" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BibNumber" class="control-label"></label>
+                    <input asp-for="BibNumber" class="form-control" />
+                    <span asp-validation-for="BibNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ChiefJudgeScore" class="control-label"></label>
+                    <input asp-for="ChiefJudgeScore" class="form-control" />
+                    <span asp-validation-for="ChiefJudgeScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JudgeOneScore" class="control-label"></label>
+                    <input asp-for="JudgeOneScore" class="form-control" />
+                    <span asp-validation-for="JudgeOneScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JudgeTwoScore" class="control-label"></label>
+                    <input asp-for="JudgeTwoScore" class="form-control" />
+                    <span asp-validation-for="JudgeTwoScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JudgeThreeScore" class="control-label"></label>
+                    <input asp-for="JudgeThreeScore" class="form-control" />
+                    <span asp-validation-for="JudgeThreeScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JudgeFourScore" class="control-label"></label>
+                    <input asp-for="JudgeFourScore" class="form-control" />
+                    <span asp-validation-for="JudgeFourScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JudgeFiveScore" class="control-label"></label>
+                    <input asp-for="JudgeFiveScore" class="form-control" />
+                    <span asp-validation-for="JudgeFiveScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JudgeSixScore" class="control-label"></label>
+                    <input asp-for="JudgeSixScore" class="form-control" />
+                    <span asp-validation-for="JudgeSixScore" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 

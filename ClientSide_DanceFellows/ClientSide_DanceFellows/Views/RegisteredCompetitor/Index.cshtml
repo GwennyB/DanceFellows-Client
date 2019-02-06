@@ -6,7 +6,7 @@
 }
 
 <h1>Index</h1>
-
+@{<partial name="_NavbarPartial" />}
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -53,49 +53,50 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Placement)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BibNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChiefJudgeScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JudgeOneScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JudgeTwoScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JudgeThreeScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JudgeFourScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JudgeFiveScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JudgeSixScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Participant.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Competition.ID)
-            </td>
-            <td>
-                
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Placement)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BibNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChiefJudgeScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeOneScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeTwoScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeThreeScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeFourScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeFiveScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JudgeSixScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Participant.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Competition.ID)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
