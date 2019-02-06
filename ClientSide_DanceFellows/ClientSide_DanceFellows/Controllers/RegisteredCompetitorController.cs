@@ -26,6 +26,7 @@ namespace ClientSide_DanceFellows.Controllers
         /// <returns>List of all existing RegisteredCompetitors</returns>
         public async Task<IActionResult> Index()
         {
+            
             return View(await _context.GetRegisteredCompetitors());
         }
 
@@ -55,8 +56,11 @@ namespace ClientSide_DanceFellows.Controllers
         /// GET: Route user to Create view.
         /// </summary>
         /// <returns></returns>
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var info = _context.ListValidCompetitors();
+            ViewData["ParticipantID"] = new SelectList(info, "ID", "ID");
+
             return View();
         }
 

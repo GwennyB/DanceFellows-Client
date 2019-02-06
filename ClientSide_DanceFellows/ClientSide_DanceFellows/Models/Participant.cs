@@ -17,6 +17,8 @@ namespace ClientSide_DanceFellows.Models
         //navigation properties
         public ICollection<RegisteredCompetitor> RegisteredCompetitors { get; set; }
 
+        public ICollection<Participant> EligibleCompetitors { get; set; }
+
     }
 
     public enum Level

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClientSide_DanceFellows.Data;
 using ClientSide_DanceFellows.Models.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClientSide_DanceFellows.Models.Services
@@ -173,6 +175,19 @@ namespace ClientSide_DanceFellows.Models.Services
                 }
             }
             _context.SaveChanges();
+        }
+
+        public SelectList ListValidCompetitors()
+        {
+
+            return new SelectList(_context.Participants, "ID", "ID");
+        }
+
+        public async Task<IEnumerable<Competition>> ListCompetitions()
+        {
+            var competitions = from c in _context.Competitions
+                                   select c;
+            return await competitions.ToListAsync();
         }
     }
 }

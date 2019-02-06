@@ -64,11 +64,10 @@ namespace ClientSide_DanceFellows.Controllers
         /// <returns>Redirect to Index page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CompType,Level")] Competition competition)
+        public async Task<IActionResult> Create([Bind("ID,CompType,Level")]Competition competition)
         {
             if (ModelState.IsValid)
             {
-                await _context.AddCompetitionAssociation(competition);
                 await _context.CreateCompetition(competition);
 
                 return RedirectToAction(nameof(Index));
@@ -112,9 +111,6 @@ namespace ClientSide_DanceFellows.Controllers
             }
             if (ModelState.IsValid)
             {
-                await _context.RemoveCompetitionAssociation(competition);
-                await _context.AddCompetitionAssociation(competition);
-
                 _context.UpdateCompetition(competition);
                 
                 return RedirectToAction(nameof(Index));
@@ -153,7 +149,6 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Competition competition)
         {
-            await _context.RemoveCompetitionAssociation(competition);
             _context.DeleteCompetition(competition);
             return RedirectToAction(nameof(Index));
         }
