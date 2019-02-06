@@ -20,6 +20,26 @@ namespace ClientSide_DanceFellows.Data
             modelBuilder.Entity<RegisteredCompetitor>().HasKey(rc => new { rc.CompetitionID, rc.ParticipantID });
 
             //Add Seeds here.
+            modelBuilder.Entity<Competition>().HasData(
+            new Competition
+            {
+                ID = 1,
+                CompType = CompType.Classic,
+                Level = Level.Novice
+            }
+            );
+
+            modelBuilder.Entity<Participant>().HasData(
+            new Participant
+            {
+                ID = 1,
+                WSC_ID = 1234,
+                FirstName = "JimBob",
+                LastName = "Franklin",
+                MinLevel = Level.Novice,
+                MaxLevel = Level.Advanced
+            }
+            );
         }
 
         //Reference to different tables.

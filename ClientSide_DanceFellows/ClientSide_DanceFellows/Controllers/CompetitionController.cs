@@ -68,6 +68,7 @@ namespace ClientSide_DanceFellows.Controllers
         {
             if (ModelState.IsValid)
             {
+                await _context.AddCompetitionAssociation(competition);
                 await _context.CreateCompetition(competition);
 
                 return RedirectToAction(nameof(Index));
@@ -111,6 +112,9 @@ namespace ClientSide_DanceFellows.Controllers
             }
             if (ModelState.IsValid)
             {
+                await _context.RemoveCompetitionAssociation(competition);
+                await _context.AddCompetitionAssociation(competition);
+
                 _context.UpdateCompetition(competition);
                 
                 return RedirectToAction(nameof(Index));
@@ -148,7 +152,8 @@ namespace ClientSide_DanceFellows.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Competition competition)
-        { 
+        {
+            await _context.RemoveCompetitionAssociation(competition);
             _context.DeleteCompetition(competition);
             return RedirectToAction(nameof(Index));
         }
@@ -167,4 +172,3 @@ namespace ClientSide_DanceFellows.Controllers
 
     }
 }
-

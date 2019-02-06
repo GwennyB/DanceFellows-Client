@@ -73,6 +73,7 @@ namespace ClientSide_DanceFellows.Controllers
         {
             if (ModelState.IsValid)
             {
+                await _context.AddParticipantAssociation(participant);
                 await _context.CreateParticipant(participant);
 
                 return RedirectToAction(nameof(Index));
@@ -116,6 +117,9 @@ namespace ClientSide_DanceFellows.Controllers
             }
             if (ModelState.IsValid)
             {
+                await _context.RemoveParticipantAssociation(participant);
+                await _context.AddParticipantAssociation(participant);
+
                 _context.UpdateParticipant(participant);
 
                 return RedirectToAction(nameof(Index));
@@ -154,6 +158,7 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Participant participant)
         {
+            await _context.RemoveParticipantAssociation(participant);
             _context.DeleteParticipant(participant);
             return RedirectToAction(nameof(Index));
         }
@@ -166,7 +171,6 @@ namespace ClientSide_DanceFellows.Controllers
         public async Task<IEnumerable<RegisteredCompetitor>> ShowRegisteredCompetitors(int id)
         {
             var registeredCompetitors = await _context.GetRegisteredCompetitors(id);
-
             return registeredCompetitors;
         }
     }

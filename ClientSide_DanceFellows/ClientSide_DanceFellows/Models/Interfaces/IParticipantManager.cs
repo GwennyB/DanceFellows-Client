@@ -29,6 +29,13 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 
         //Navagation Properties
 
+        //Add NavProp to RegisteredCompetitors
+        Task AddParticipantAssociation(Participant participant);
+
+        //Remove NavProp from RegisteredCompetitors
+        Task RemoveParticipantAssociation(Participant participant);
+
+
         //Read ALL RegisteredCompetitiors
         Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors(int id);
 

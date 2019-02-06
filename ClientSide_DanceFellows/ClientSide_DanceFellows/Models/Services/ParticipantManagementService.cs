@@ -112,5 +112,27 @@ namespace ClientSide_DanceFellows.Models.Services
             _context.Participants.Update(participant);
             _context.SaveChanges();
         }
+
+        public async Task AddParticipantAssociation(Participant participant)
+        {
+            RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.ParticipantID == participant.ID);
+
+            registeredCompetitor.Participant = participant;
+
+            _context.RegisteredCompetitors.Update(registeredCompetitor);
+            _context.SaveChanges();
+        }
+
+        public async Task RemoveParticipantAssociation(Participant participant)
+        {
+            RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.ParticipantID == participant.ID);
+
+            registeredCompetitor.Competition = null;
+
+            _context.RegisteredCompetitors.Update(registeredCompetitor);
+            _context.SaveChanges();
+        }
+
+        
     }
 }
