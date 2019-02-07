@@ -32,9 +32,9 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 
         //Navagation Properties
 
-        Participant ShowParticipant(int participantID);
+        Task<Participant> ShowParticipant(int participantID);
 
-        Competition ShowCompetitor(int participantID);
+        Task<Competition> ShowCompetition(int participantID);
 
         //Searches through participants and only lists ones that have WSC ID
         Task<IEnumerable<Participant>> ListValidCompetitors();

@@ -117,15 +117,15 @@ namespace ClientSide_DanceFellows.Models.Services
             return competitions;
         }
 
-        public Participant ShowParticipant(int participantID)
+        public async Task<Participant> ShowParticipant(int participantID)
         {
-            var participant = _context.Participants.FirstOrDefault(p => p.ID == participantID);
+            var participant = await _context.Participants.FirstOrDefaultAsync(p => p.ID == participantID);
             return participant;
         }
 
-        public Competition ShowCompetitor(int participantID)
+        public async Task<Competition> ShowCompetition(int participantID)
         {
-            var competition = _context.Competitions.FirstOrDefault(p => p.ID == participantID);
+            var competition = await _context.Competitions.FirstOrDefaultAsync(p => p.ID == participantID);
             return competition;
         }
     }

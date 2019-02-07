@@ -35,22 +35,22 @@ namespace ClientSide_DanceFellows.Controllers
                 var registeredCompetitorsSearch = await _context.SearchRegisteredCompetitor(Convert.ToInt32(searchString));
                 foreach (RegisteredCompetitor registeredCompetitor in registeredCompetitorsSearch)
                 {
-                    Competition competiton = _context.ShowCompetitor(registeredCompetitor.CompetitionID);
+                    Competition competiton = await _context.ShowCompetition(registeredCompetitor.CompetitionID);
                     registeredCompetitor.Competition = competiton;
 
-                    Participant participant = _context.ShowParticipant(registeredCompetitor.ParticipantID);
+                    Participant participant = await _context.ShowParticipant(registeredCompetitor.ParticipantID);
                     registeredCompetitor.Participant = participant;
-                }        
+                }
                 return View(registeredCompetitorsSearch);
             }
             var registeredCompetitors = await _context.GetRegisteredCompetitors();
 
             foreach (RegisteredCompetitor registeredCompetitor in registeredCompetitors)
             {
-                Competition competiton = _context.ShowCompetitor(registeredCompetitor.CompetitionID);
+                Competition competiton = await _context.ShowCompetition(registeredCompetitor.CompetitionID);
                 registeredCompetitor.Competition = competiton;
 
-                Participant participant = _context.ShowParticipant(registeredCompetitor.ParticipantID);
+                Participant participant = await _context.ShowParticipant(registeredCompetitor.ParticipantID);
                 registeredCompetitor.Participant = participant;
             }
 
@@ -103,7 +103,7 @@ namespace ClientSide_DanceFellows.Controllers
         public async Task<IActionResult> Create([Bind("ParticipantID,CompetitionID,Role,Placement,BibNumber,ChiefJudgeScore,JudgeOneScore,JudgeTwoScore,JudgeThreeScore,JudgeFourScore,JudgeFiveScore,JudgeSixScore,Participant,Competition")] RegisteredCompetitor registeredCompetitor)
         {
             var checkDuplicate = await _context.GetRegisteredCompetitor(registeredCompetitor.ParticipantID, registeredCompetitor.CompetitionID);
-            if(checkDuplicate != null)
+            if (checkDuplicate != null)
             {
                 return View(checkDuplicate);
             }
@@ -111,12 +111,54 @@ namespace ClientSide_DanceFellows.Controllers
             if (ModelState.IsValid)
             {
                 await _context.CreateRegisteredCompetitor(registeredCompetitor);
-                
+
                 await CreateResult(registeredCompetitor);
                 return RedirectToAction(nameof(Index));
             }
             return View(registeredCompetitor);
         }
+
+
+        [HttpPost, ActionName("Score")]
+        public async Task<IActionResult> Score(int[] participantID, int[] competitionID, Role[] role, int[] bibNumber, int[] chiefJudgeScore, int[] judgeOneScore, int[] judgeTwoScore, int[] judgeThreeScore, int[] judgeFourScore, int[] judgeFiveScore, int[] judgeSixScore)
+        {
+            for (int i = 0; i < participantID.Length; i++)
+            {
+                RegisteredCompetitor registeredCompetitor = new RegisteredCompetitor();
+
+                registeredCompetitor.ParticipantID = participantID[i];
+
+                registeredCompetitor.CompetitionID = competitionID[i];
+
+                registeredCompetitor.Role = role[i];
+
+                registeredCompetitor.BibNumber = bibNumber[i];
+
+                registeredCompetitor.ChiefJudgeScore = chiefJudgeScore[i];
+
+                registeredCompetitor.JudgeOneScore = judgeOneScore[i];
+
+                registeredCompetitor.JudgeTwoScore = judgeTwoScore[i];
+
+                registeredCompetitor.JudgeThreeScore = judgeThreeScore[i];
+
+                registeredCompetitor.JudgeFourScore = judgeFourScore[i];
+
+                registeredCompetitor.JudgeFiveScore = judgeFiveScore[i];
+
+                registeredCompetitor.JudgeSixScore = judgeSixScore[i];
+
+                if (ModelState.IsValid)
+                {
+                    _context.UpdateRegisteredCompetitor(registeredCompetitor);
+                    //TODO: await UpdateResult(registeredCompetitor);
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
         /// <summary>
         /// When edit is selected will redirect to a edit page with the RegisteredCompetitor information.
@@ -154,7 +196,7 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
             if (ModelState.IsValid)
-            {                             
+            {
                 _context.UpdateRegisteredCompetitor(registeredCompetitor);
 
                 return RedirectToAction(nameof(Index));
@@ -196,19 +238,19 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
 
-
         [HttpGet]
         public async Task<IActionResult> CallAPI()
         {
             IEnumerable<RegisteredCompetitor> competitor = await _context.GetRegisteredCompetitors();
+
             await CreateResult(competitor.FirstOrDefault());
             return Ok();
         }
 
 
         private static HttpClient client = new HttpClient();
-        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
-        private string path = "http://localhost:57983/";
+        private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
+        //private string path = "http://localhost:57983/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
@@ -217,9 +259,22 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
             List<string> data = new List<string>();
-            data.Add(JsonConvert.SerializeObject(reg.Participant));
-            data.Add(JsonConvert.SerializeObject(reg));
-            data.Add(JsonConvert.SerializeObject(reg.Competition));
+
+            Competition competition = await _context.ShowCompetition(reg.CompetitionID);
+
+            Participant participant = await _context.ShowParticipant(reg.ParticipantID);
+
+            competition.RegisteredCompetitors = null;
+            reg.Competition = null;
+            reg.Participant = null;
+
+            string itemOne = JsonConvert.SerializeObject(competition);
+            string itemTwo = JsonConvert.SerializeObject(reg);
+            string itemThree = JsonConvert.SerializeObject(participant);
+
+            data.Add(itemOne);
+            data.Add(itemTwo);
+            data.Add(itemThree);
 
             try
             {
@@ -278,82 +333,6 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
         }
-
-        [HttpPost, ActionName("Score")]
-        public IActionResult Score(int[] CompetitionID, int[] ParticipantID, int[] ChiefJudgeScore, int[] JudgeOneScore, int[] JudgeTwoScore, int[] JudgeThreeScore, int[] JudgeFourScore, int[] JudgeFiveScore, int[] JudgeSixScore)
-        {
-            return View();
-        }
-
-
-        //private static HttpClient client = new HttpClient();
-        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
-
-        //private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
-        //{
-        //    if (reg == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    List<Object> data = new List<Object>();
-        //    data.Add(reg);
-        //    data.Add(reg.Competition);
-        //    try
-        //    {
-        //        HttpResponseMessage response = await client.PostAsJsonAsync("Results/Create", data);
-        //        response.EnsureSuccessStatusCode();
-        //        Response.StatusCode = 200;
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Response.StatusCode = 400;
-        //        return NotFound();
-        //    }
-        //}
-
-        //private async Task<IActionResult> UpdateResult(RegisteredCompetitor reg)
-        //{
-        //    if (reg == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    List<Object> data = new List<Object>();
-        //    data.Add(reg);
-        //    data.Add(reg.Competition);
-        //    try
-        //    {
-        //        HttpResponseMessage response = await client.PutAsJsonAsync("Results/Update", data);
-        //        response.EnsureSuccessStatusCode();
-        //        Response.StatusCode = 200;
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Response.StatusCode = 400;
-        //        return NotFound();
-        //    }
-        //}
-
-        //private async Task<IActionResult> DeleteResult(RegisteredCompetitor reg)
-        //{
-        //    if (reg == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    try
-        //    {
-        //        HttpResponseMessage response = await client.DeleteAsync($"Results/Delete/?EventID={reg.EventID}&CompetitorID={reg.ParticipantID}&CompType={reg.Competition.CompType}&Level={reg.Competition.Level}");
-        //        response.EnsureSuccessStatusCode();
-        //        Response.StatusCode = 200;
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        Response.StatusCode = 400;
-        //        return NotFound();
-        //    }
-        //}
     }
 }
 

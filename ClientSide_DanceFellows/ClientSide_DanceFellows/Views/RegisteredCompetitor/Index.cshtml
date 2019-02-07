@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<ClientSide_DanceFellows.Models.RegisteredCompetitor>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "_Layout";
 }
-
-<h1>Index</h1>
+<h1>All Competitors</h1>
 @{<partial name="_NavbarPartial" />}
-
 <form asp-controller="RegisteredCompetitor" asp-action="Index">
     <p>
         Competition ID: <input type="number" min="0" name="SearchString" method="get">
@@ -22,10 +19,13 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Role)
+                    @Html.DisplayNameFor(model => model.Participant)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Placement)
+                    @Html.DisplayNameFor(model => model.Competition)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.BibNumber)
@@ -51,12 +51,6 @@
                 <th>
                     @Html.DisplayNameFor(model => model.JudgeSixScore)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Participant)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Competition)
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -65,42 +59,43 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Role)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Placement)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BibNumber)
-                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.CompetitionID)" name="CompetitionID" method="post">
-                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.ParticipantID)" name="ParticipantID" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.ChiefJudgeScore)" min="0" max="10" name="ChiefJudgeScore" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeOneScore)" min="0" max="10" name="JudgeOneScore" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeTwoScore)" min="0" max="10" name="JudgeTwoScore" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeThreeScore)" min="0" max="10" name="JudgeThreeScore" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeFourScore)" min="0" max="10" name="JudgeFourScore" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeFiveScore)" min="0" max="10" name="JudgeFiveScore" method="post">
-                    </td>
-                    <td>
-                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeSixScore)" min="0" max="10" name="JudgeSixScore" method="post">
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Participant.FullName)
+                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.ParticipantID)" name="participantID" method="post">
+
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Competition.CompType)
+                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.CompetitionID)" name="competitionID" method="post">
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.Role)" name="role" method="post">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BibNumber)
+                        <input type="hidden" value="@Html.DisplayFor(modelItem => item.BibNumber)" name="bibNumber" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.ChiefJudgeScore)" min="0" max="10" name="chiefJudgeScore" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeOneScore)" min="0" max="10" name="judgeOneScore" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeTwoScore)" min="0" max="10" name="judgeTwoScore" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeThreeScore)" min="0" max="10" name="judgeThreeScore" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeFourScore)" min="0" max="10" name="judgeFourScore" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeFiveScore)" min="0" max="10" name="judgeFiveScore" method="post">
+                    </td>
+                    <td>
+                        <input type="number" value="@Html.DisplayFor(modelItem => item.JudgeSixScore)" min="0" max="10" name="judgeSixScore" method="post">
                     </td>
                     <td>
                         @Html.ActionLink("Delete", "Delete", new { participantID = item.ParticipantID, competitionID = item.CompetitionID })
