@@ -8,17 +8,14 @@ namespace ClientSide_DanceFellows.Models
 {
     public class RegisteredCompetitor
     {
-        [Required(ErrorMessage = "")]
         [Display(Name = "Participant ID")]
         public int ParticipantID { get; set; }
 
-        [Required(ErrorMessage = "")]
         [Display(Name = "Competition ID")]
         public int CompetitionID { get; set; }
 
         public int EventID { get; set; }
 
-        [Required(ErrorMessage = "")]
         public Role Role { get; set; }
 
         public Placement Placement { get; set; }
