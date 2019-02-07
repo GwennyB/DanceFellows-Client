@@ -34,7 +34,7 @@ namespace ClientSide_DanceFellows
             services.AddMvc();
 
             services.AddDbContext<ClientSideDanceFellowsDbContext>(options =>
-            options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"])
+            options.UseSqlServer(Configuration["ConnectionStrings:ProductionConnection"])
             );
 
             services.AddScoped<ICompetitionManager, CompetitionManagementService>();
