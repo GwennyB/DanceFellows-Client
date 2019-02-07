@@ -9,6 +9,7 @@ using ClientSide_DanceFellows.Data;
 using ClientSide_DanceFellows.Models;
 using ClientSide_DanceFellows.Models.Interfaces;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace ClientSide_DanceFellows.Controllers
 {
@@ -101,7 +102,12 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ParticipantID,CompetitionID,Role,Placement,BibNumber,ChiefJudgeScore,JudgeOneScore,JudgeTwoScore,JudgeThreeScore,JudgeFourScore,JudgeFiveScore,JudgeSixScore,Participant,Competition")] RegisteredCompetitor registeredCompetitor)
         {
-            
+            var checkDuplicate = await _context.GetRegisteredCompetitor(registeredCompetitor.ParticipantID, registeredCompetitor.CompetitionID);
+            if(checkDuplicate != null)
+            {
+                return View(checkDuplicate);
+            }
+
             if (ModelState.IsValid)
             {
                 await _context.CreateRegisteredCompetitor(registeredCompetitor);
