@@ -94,14 +94,14 @@
                     @Html.DisplayFor(modelItem => item.JudgeSixScore)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Participant.ID)
+                    @Html.DisplayFor(modelItem => item.Participant.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Competition.ID)
+                    @Html.DisplayFor(modelItem => item.Competition.CompType)
                 </td>
                 <td>
 
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Delete", "Delete", new { participantID = item.ParticipantID, competitionID = item.CompetitionID })
                 </td>
             </tr>
         }

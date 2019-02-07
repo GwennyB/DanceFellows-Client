@@ -32,17 +32,9 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 
         //Navagation Properties
 
-        //Adds RegisteredCompetitor to Participant nav props
-        Task AddParticipantAssociation(RegisteredCompetitor registeredCompetitor);
+        Participant ShowParticipant(int participantID);
 
-        //Adds RegisteredCompetitor to Competition nav props
-        Task AddCompetitionAssociation(RegisteredCompetitor registeredCompetitor);
-
-        //Adds RegisteredCompetitor to Participant nav props
-        Task RemoveParticipantAssociation(RegisteredCompetitor registeredCompetitor);
-
-        //Adds RegisteredCompetitor to Competition nav props
-        Task RemoveCompetitionAssociation(RegisteredCompetitor registeredCompetitor);
+        Competition ShowCompetitor(int participantID);
 
         //Searches through participants and only lists ones that have WSC ID
         Task<IEnumerable<Participant>> ListValidCompetitors();

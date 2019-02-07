@@ -29,12 +29,31 @@ namespace ClientSide_DanceFellows.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(string searchString)
         {
-
             if (!String.IsNullOrEmpty(searchString))
             {
-                return View(await _context.SearchRegisteredCompetitor(Convert.ToInt32(searchString)));
+                var registeredCompetitorsSearch = await _context.SearchRegisteredCompetitor(Convert.ToInt32(searchString));
+                foreach (RegisteredCompetitor registeredCompetitor in registeredCompetitorsSearch)
+                {
+                    Competition competiton = _context.ShowCompetitor(registeredCompetitor.CompetitionID);
+                    registeredCompetitor.Competition = competiton;
+
+                    Participant participant = _context.ShowParticipant(registeredCompetitor.ParticipantID);
+                    registeredCompetitor.Participant = participant;
+                }        
+                return View(registeredCompetitorsSearch);
             }
-            return View(await _context.GetRegisteredCompetitors());
+            var registeredCompetitors = await _context.GetRegisteredCompetitors();
+
+            foreach (RegisteredCompetitor registeredCompetitor in registeredCompetitors)
+            {
+                Competition competiton = _context.ShowCompetitor(registeredCompetitor.CompetitionID);
+                registeredCompetitor.Competition = competiton;
+
+                Participant participant = _context.ShowParticipant(registeredCompetitor.ParticipantID);
+                registeredCompetitor.Participant = participant;
+            }
+
+            return View(registeredCompetitors);
         }
 
         /// <summary>
@@ -82,11 +101,11 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ParticipantID,CompetitionID,Role,Placement,BibNumber,ChiefJudgeScore,JudgeOneScore,JudgeTwoScore,JudgeThreeScore,JudgeFourScore,JudgeFiveScore,JudgeSixScore,Participant,Competition")] RegisteredCompetitor registeredCompetitor)
         {
+            
             if (ModelState.IsValid)
             {
                 await _context.CreateRegisteredCompetitor(registeredCompetitor);
-                await _context.AddCompetitionAssociation(registeredCompetitor);
-                await _context.AddParticipantAssociation(registeredCompetitor);
+                
                 await CreateResult(registeredCompetitor);
                 return RedirectToAction(nameof(Index));
             }
@@ -129,13 +148,7 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
             if (ModelState.IsValid)
-            {
-                await _context.RemoveCompetitionAssociation(registeredCompetitor);
-                await _context.AddCompetitionAssociation(registeredCompetitor);
-
-                await _context.RemoveParticipantAssociation(registeredCompetitor);
-                await _context.AddParticipantAssociation(registeredCompetitor);
-
+            {                             
                 _context.UpdateRegisteredCompetitor(registeredCompetitor);
 
                 return RedirectToAction(nameof(Index));
@@ -172,8 +185,6 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(RegisteredCompetitor registeredCompetitor)
         {
-            await _context.RemoveCompetitionAssociation(registeredCompetitor);
-            await _context.RemoveParticipantAssociation(registeredCompetitor);
             _context.DeleteRegisteredCompetitor(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
