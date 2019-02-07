@@ -21,12 +21,18 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// GET: Handles RegisteredCompetitor Index Page Load
+        /// GET: "Filter" by CompID or
+        /// display all if null
         /// </summary>
-        /// <returns>List of all existing RegisteredCompetitors</returns>
-        public async Task<IActionResult> Index()
+        /// <param name="searchString">filter to apply</param>
+        /// <returns></returns>
+        public async Task<IActionResult> Index(string searchString)
         {
-            
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return View(await _context.SearchRegisteredCompetitor(Convert.ToInt32(searchString)));
+            }
             return View(await _context.GetRegisteredCompetitors());
         }
 
@@ -170,6 +176,5 @@ namespace ClientSide_DanceFellows.Controllers
             _context.DeleteRegisteredCompetitor(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

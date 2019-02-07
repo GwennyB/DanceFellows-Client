@@ -10,6 +10,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="RegisteredCompetitor" asp-action="Index">
+    <p>
+        Competition ID: <input type="number" min="0" name="SearchString" method="get">
+        <input class="btn btn-primary" type="submit" value="Filter" />
+    </p>
+</form>
 <table class="table">
     <thead>
         <tr>
