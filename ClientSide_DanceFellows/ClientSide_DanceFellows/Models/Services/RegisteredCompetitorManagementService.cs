@@ -103,89 +103,7 @@ namespace ClientSide_DanceFellows.Models.Services
             _context.SaveChanges();
         }
 
-        // Nav Props
-
-        /// <summary>
-        /// Adds RegisteredCompetitor to Competition Nav Props RegisteredCompetitiors
-        /// </summary>
-        /// <param name="registeredCompetitor"></param>
-        /// <returns>Saves DB</returns>
-        public async Task AddCompetitionAssociation(RegisteredCompetitor registeredCompetitor)
-        {
-            var competitions = await _context.Competitions.ToListAsync();
-
-            foreach (Competition competition in competitions)
-            {
-                if (competition.ID == registeredCompetitor.CompetitionID)
-                {
-                    competition.RegisteredCompetitors.Add(registeredCompetitor);
-                    _context.Competitions.Update(competition);
-                }
-            }
-            _context.SaveChanges();      
-        }
-
-        /// <summary>
-        /// Removes RegisteredCompetitor from Competition Nav Props RegisteredCompetitiors
-        /// </summary>
-        /// <param name="registeredCompetitor"></param>
-        /// <returns>Saves DB</returns>
-        public async Task RemoveCompetitionAssociation(RegisteredCompetitor registeredCompetitor)
-        {
-            var competitions = await _context.Competitions.ToListAsync();
-
-            foreach (Competition competition in competitions)
-            {
-                if (competition.ID == registeredCompetitor.CompetitionID)
-                {
-                    competition.RegisteredCompetitors.Remove(registeredCompetitor);
-                    _context.Competitions.Update(competition);
-                }
-            }
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Adds RegisteredCompetitor to Participant Nav Props RegisteredCompetitiors
-        /// </summary>
-        /// <param name="registeredCompetitor"></param>
-        /// <returns></returns>
-        public async Task AddParticipantAssociation(RegisteredCompetitor registeredCompetitor)
-        {
-            var participants = await _context.Participants.ToListAsync();
-
-            foreach (Participant participant in participants)
-            {
-                if (participant.ID == registeredCompetitor.ParticipantID)
-                {
-                    participant.RegisteredCompetitors.Add(registeredCompetitor);
-                    _context.Participants.Update(participant);
-                }
-            }
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Removes RegisteredCompetitor from Participant Nav Props RegisteredCompetitiors
-        /// </summary>
-        /// <param name="registeredCompetitor"></param>
-        /// <returns></returns>
-        public async Task RemoveParticipantAssociation(RegisteredCompetitor registeredCompetitor)
-        {
-            var participants = await _context.Participants.ToListAsync();
-
-            foreach (Participant participant in participants)
-            {
-                if (participant.ID == registeredCompetitor.ParticipantID)
-                {
-                    participant.RegisteredCompetitors.Remove(registeredCompetitor);
-                    _context.Participants.Update(participant);
-                }
-            }
-            _context.SaveChanges();
-        }
-
-
+        // Nav Props     
 
         public async Task<IEnumerable<Participant>> ListValidCompetitors()
         {
@@ -197,6 +115,18 @@ namespace ClientSide_DanceFellows.Models.Services
         {
             var competitions = _context.Competitions;
             return competitions;
+        }
+
+        public Participant ShowParticipant(int participantID)
+        {
+            var participant = _context.Participants.FirstOrDefault(p => p.ID == participantID);
+            return participant;
+        }
+
+        public Competition ShowCompetitor(int participantID)
+        {
+            var competition = _context.Competitions.FirstOrDefault(p => p.ID == participantID);
+            return competition;
         }
     }
 }
