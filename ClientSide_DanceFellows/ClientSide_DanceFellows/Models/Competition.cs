@@ -17,6 +17,16 @@ namespace ClientSide_DanceFellows.Models
         [Required(ErrorMessage = "Please select a competition level")]
         public Level Level { get; set; }
 
+        [Display(Name = "Competition Name")]
+        public string CompetitionName
+        {
+            get
+            {
+                return $"{Level} {CompType}";
+            }
+        }
+
+
         //navigation properties
         public ICollection<RegisteredCompetitor> RegisteredCompetitors { get; set; }
     }
