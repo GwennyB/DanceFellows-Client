@@ -190,8 +190,19 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
 
+
+        [HttpGet]
+        public async Task<IActionResult> CallAPI()
+        {
+            IEnumerable<RegisteredCompetitor> competitor = await _context.GetRegisteredCompetitors();
+            await CreateResult(competitor.FirstOrDefault());
+            return Ok();
+        }
+
+
         private static HttpClient client = new HttpClient();
-        private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
+        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
+        private string path = "http://localhost:57983/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
@@ -199,10 +210,11 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 return NotFound();
             }
-            List<Object> data = new List<Object>();
-            data.Add(reg.Participant);
-            data.Add(reg);
-            data.Add(reg.Competition);
+            List<string> data = new List<string>();
+            data.Add(JsonConvert.SerializeObject(reg.Participant));
+            data.Add(JsonConvert.SerializeObject(reg));
+            data.Add(JsonConvert.SerializeObject(reg.Competition));
+
             try
             {
                 HttpResponseMessage response = await client.PostAsJsonAsync("Results/Create", data);
@@ -223,10 +235,10 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 return NotFound();
             }
-            List<Object> data = new List<Object>();
-            data.Add(reg.Participant);
-            data.Add(reg);
-            data.Add(reg.Competition);
+            List<string> data = new List<string>();
+            data.Add(JsonConvert.SerializeObject(reg.Participant));
+            data.Add(JsonConvert.SerializeObject(reg));
+            data.Add(JsonConvert.SerializeObject(reg.Competition));
             try
             {
                 HttpResponseMessage response = await client.PutAsJsonAsync("Results/Update", data);
@@ -260,7 +272,7 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
         }
-    
+
 
         //private static HttpClient client = new HttpClient();
         //private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
