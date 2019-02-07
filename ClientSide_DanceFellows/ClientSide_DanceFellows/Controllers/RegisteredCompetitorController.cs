@@ -245,18 +245,32 @@ namespace ClientSide_DanceFellows.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> CallAPI()
+        public async Task<RegisteredCompetitor> CallAPI()
         {
-            IEnumerable<RegisteredCompetitor> competitor = await _context.GetRegisteredCompetitors();
+            RegisteredCompetitor test = new RegisteredCompetitor();
+            test.ParticipantID = 9;
+            test.CompetitionID = 2;
+            test.EventID = 1;
+            test.Role = Role.Lead;
+            test.Placement = Placement.Position1;
+            test.BibNumber = 150;
+            test.ChiefJudgeScore = 1;
+            test.JudgeOneScore = 1;
+            test.JudgeTwoScore = 1;
+            test.JudgeTwoScore = 1;
+            test.JudgeThreeScore = 1;
+            test.JudgeFourScore = 1;
+            test.JudgeFiveScore = 1;
+            test.JudgeSixScore = 1;
 
-            await CreateResult(competitor.FirstOrDefault());
-            return Ok();
+            await CreateResult(test);
+            return test;
         }
 
 
         private static HttpClient client = new HttpClient();
-        private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
-        //private string path = "http://localhost:57983/";
+        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
+        private string path = "http://localhost:57983/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
@@ -264,8 +278,7 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 return NotFound();
             }
-            List<string> data = new List<string>();
-
+           
             Competition competition = await _context.ShowCompetition(reg.CompetitionID);
 
             Participant participant = await _context.ShowParticipant(reg.ParticipantID);
@@ -274,17 +287,14 @@ namespace ClientSide_DanceFellows.Controllers
             reg.Competition = null;
             reg.Participant = null;
 
-            string itemOne = JsonConvert.SerializeObject(competition);
-            string itemTwo = JsonConvert.SerializeObject(reg);
-            string itemThree = JsonConvert.SerializeObject(participant);
-
-            data.Add(itemOne);
-            data.Add(itemTwo);
-            data.Add(itemThree);
+            List<object> data = new List<object>();
+            data.Add(competition);
+            data.Add(participant);
+            data.Add(reg);
 
             try
             {
-                HttpResponseMessage response = await client.PostAsJsonAsync("Results/Create", data);
+                HttpResponseMessage response = await client.PostAsJsonAsync(path+"Results/Create", data);
                 response.EnsureSuccessStatusCode();
                 Response.StatusCode = 200;
                 return Ok();
