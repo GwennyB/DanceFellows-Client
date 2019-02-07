@@ -279,6 +279,12 @@ namespace ClientSide_DanceFellows.Controllers
             }
         }
 
+        [HttpPost, ActionName("Score")]
+        public IActionResult Score(int[] CompetitionID, int[] ParticipantID, int[] ChiefJudgeScore, int[] JudgeOneScore, int[] JudgeTwoScore, int[] JudgeThreeScore, int[] JudgeFourScore, int[] JudgeFiveScore, int[] JudgeSixScore)
+        {
+            return View();
+        }
+
 
         //private static HttpClient client = new HttpClient();
         //private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
