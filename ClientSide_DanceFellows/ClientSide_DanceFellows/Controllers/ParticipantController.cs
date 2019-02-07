@@ -71,15 +71,16 @@ namespace ClientSide_DanceFellows.Controllers
         /// <returns>Redirect to Index page</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,WSC_ID,FirstName,LastName,MinLevel,MaxLevel")] Participant participant)
+        public async Task<IActionResult> Create([Bind("WSC_ID")] Participant participant)
         {
-            if (ModelState.IsValid)
+            Participant createdParticipant = await GetCompetitor(participant.WSC_ID);
+            if(createdParticipant != default(Participant))
             {
-                
-                await _context.CreateParticipant(participant);
+                await _context.CreateParticipant(createdParticipant);
 
                 return RedirectToAction(nameof(Index));
             }
+                
             return View(participant);
         }
 
