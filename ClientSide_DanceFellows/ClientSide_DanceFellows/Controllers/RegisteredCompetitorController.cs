@@ -9,6 +9,7 @@ using ClientSide_DanceFellows.Data;
 using ClientSide_DanceFellows.Models;
 using ClientSide_DanceFellows.Models.Interfaces;
 using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace ClientSide_DanceFellows.Controllers
 {
@@ -271,6 +272,12 @@ namespace ClientSide_DanceFellows.Controllers
                 Response.StatusCode = 400;
                 return NotFound();
             }
+        }
+
+        [HttpPost, ActionName("Score")]
+        public IActionResult Score(int[] CompetitionID, int[] ParticipantID, int[] ChiefJudgeScore, int[] JudgeOneScore, int[] JudgeTwoScore, int[] JudgeThreeScore, int[] JudgeFourScore, int[] JudgeFiveScore, int[] JudgeSixScore)
+        {
+            return View();
         }
 
 
