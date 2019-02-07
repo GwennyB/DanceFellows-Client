@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ClientSide_DanceFellows.Data;
 using ClientSide_DanceFellows.Models;
 using ClientSide_DanceFellows.Models.Interfaces;
+using System.Net.Http;
 
 namespace ClientSide_DanceFellows.Controllers
 {
@@ -176,5 +177,79 @@ namespace ClientSide_DanceFellows.Controllers
             _context.DeleteRegisteredCompetitor(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
+
+
+        private static HttpClient client = new HttpClient();
+        private string path = "https://apidancefellows20190204115607.azurewebsites.net/api/";
+
+        private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
+        {
+            if (reg == null)
+            {
+                return NotFound();
+            }
+            List<Object> data = new List<Object>();
+            data.Add(reg.Participant);
+            data.Add(reg);
+            data.Add(reg.Competition);
+            try
+            {
+                HttpResponseMessage response = await client.PostAsJsonAsync("Results/Create", data);
+                response.EnsureSuccessStatusCode();
+                Response.StatusCode = 200;
+                return Ok();
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 400;
+                return NotFound();
+            }
+        }
+
+        private async Task<IActionResult> UpdateResult(RegisteredCompetitor reg)
+        {
+            if (reg == null)
+            {
+                return NotFound();
+            }
+            List<Object> data = new List<Object>();
+            data.Add(reg.Participant);
+            data.Add(reg);
+            data.Add(reg.Competition);
+            try
+            {
+                HttpResponseMessage response = await client.PutAsJsonAsync("Results/Update", data);
+                response.EnsureSuccessStatusCode();
+                Response.StatusCode = 200;
+                return Ok();
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 400;
+                return NotFound();
+            }
+        }
+
+        private async Task<IActionResult> DeleteResult(RegisteredCompetitor reg)
+        {
+            if (reg == null)
+            {
+                return NotFound();
+            }
+            try
+            {
+                HttpResponseMessage response = await client.DeleteAsync($"Results/Delete/?EventID={reg.EventID}&CompetitorID={reg.ParticipantID}&CompType={reg.Competition.CompType}&Level={reg.Competition.Level}");
+                response.EnsureSuccessStatusCode();
+                Response.StatusCode = 200;
+                return Ok();
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = 400;
+                return NotFound();
+            }
+        }
+
+
     }
 }
