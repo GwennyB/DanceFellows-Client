@@ -74,7 +74,7 @@ namespace ClientSide_DanceFellows.Controllers
         public async Task<IActionResult> Create([Bind("WSC_ID")] Participant participant)
         {
             Participant createdParticipant = await GetCompetitor(participant.WSC_ID);
-            if(createdParticipant != default(Participant))
+            if(createdParticipant.WSC_ID > 0)
             {
                 await _context.CreateParticipant(createdParticipant);
 
@@ -192,21 +192,24 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 var rawParticipantPackage = await client.GetAsync(path + pathExtension);
                 //Type type = rawParticipant.GetType();
-                HttpContent rawParticipant = rawParticipantPackage.Content;
-                JObject rawParticipantObject = rawParticipant.ReadAsAsync<JObject>().Result;
-                if (rawParticipantObject["id"] != null && rawParticipantObject["wsdC_ID"] != null && rawParticipantObject["firstName"] != null && rawParticipantObject["lastName"] != null && rawParticipantObject["minLevel"] != null && rawParticipantObject["maxLevel"] != null)
+                if (rawParticipantPackage.IsSuccessStatusCode)
                 {
-                    retrievedParticipant.ID = (int)rawParticipantObject["id"];
-                    retrievedParticipant.WSC_ID = (int)rawParticipantObject["wsdC_ID"];
-                    retrievedParticipant.FirstName = (string)rawParticipantObject["firstName"];
-                    retrievedParticipant.LastName = (string)rawParticipantObject["lastName"];
-                    int minLevel = (int)rawParticipantObject["minLevel"];
-                    int maxLevel = (int)rawParticipantObject["maxLevel"];
-                    retrievedParticipant.MinLevel = (Level)minLevel;
-                    retrievedParticipant.MaxLevel = (Level)maxLevel;
-                    if (WSCD_ID > 0)
+                    HttpContent rawParticipant = rawParticipantPackage.Content;
+                    JObject rawParticipantObject = rawParticipant.ReadAsAsync<JObject>().Result;
+                    if (rawParticipantObject["id"] != null && rawParticipantObject["wsdC_ID"] != null && rawParticipantObject["firstName"] != null && rawParticipantObject["lastName"] != null && rawParticipantObject["minLevel"] != null && rawParticipantObject["maxLevel"] != null)
                     {
-                        retrievedParticipant.EligibleCompetitor = true;
+                        retrievedParticipant.ID = (int)rawParticipantObject["id"];
+                        retrievedParticipant.WSC_ID = (int)rawParticipantObject["wsdC_ID"];
+                        retrievedParticipant.FirstName = (string)rawParticipantObject["firstName"];
+                        retrievedParticipant.LastName = (string)rawParticipantObject["lastName"];
+                        int minLevel = (int)rawParticipantObject["minLevel"];
+                        int maxLevel = (int)rawParticipantObject["maxLevel"];
+                        retrievedParticipant.MinLevel = (Level)minLevel;
+                        retrievedParticipant.MaxLevel = (Level)maxLevel;
+                        if (WSCD_ID > 0)
+                        {
+                            retrievedParticipant.EligibleCompetitor = true;
+                        }
                     }
                 }
             }
