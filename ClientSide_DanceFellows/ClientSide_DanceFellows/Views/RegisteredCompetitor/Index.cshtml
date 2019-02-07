@@ -7,8 +7,9 @@
 @{<partial name="_NavbarPartial" />}
 <form asp-controller="RegisteredCompetitor" asp-action="Index">
     <p>
-        Competition ID: <input type="number" min="0" name="SearchString" method="get">
+        Competition: <input name="SearchString" method="get">
         <input class="btn btn-primary" type="submit" value="Filter" />
+        
     </p>
 </form>
 <p>
@@ -64,7 +65,7 @@
 
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Competition.CompType)
+                        @Html.DisplayFor(modelItem => item.Competition.CompetitionName)
                         <input type="hidden" value="@Html.DisplayFor(modelItem => item.CompetitionID)" name="competitionID" method="post">
 
                     </td>

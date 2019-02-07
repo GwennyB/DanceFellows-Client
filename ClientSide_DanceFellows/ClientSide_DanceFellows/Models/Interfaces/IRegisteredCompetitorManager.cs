@@ -28,7 +28,7 @@ namespace ClientSide_DanceFellows.Models.Interfaces
         void DeleteRegisteredCompetitor(int participantID, int competitionID);
 
         //Search RegisteredCompetitor
-        Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(int competitionID);
+        Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(string searchString);
 
         //Navagation Properties
 

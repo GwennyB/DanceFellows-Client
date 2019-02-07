@@ -83,14 +83,29 @@ namespace ClientSide_DanceFellows.Models.Services
         /// </summary>
         /// <param name="competitionID"></param>
         /// <returns>List of RegisteredCompetitors</returns>
-        public async Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(int competitionID)
+        public async Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(string searchString)
         {
-            var registeredCompetitor = from rc in _context.RegisteredCompetitors
-                               select rc;
+            var competitions = from c in _context.Competitions
+                               select c;
 
-            registeredCompetitor = registeredCompetitor.Where(rc => rc.CompetitionID == competitionID);
+            competitions = competitions.Where(rc => rc.CompetitionName.ToLower().Contains(searchString.ToLower()));
 
-            return await registeredCompetitor.ToListAsync();
+            var registeredCompetitors = from rc in _context.RegisteredCompetitors
+                                        select rc;
+            List<RegisteredCompetitor> validRegisteredCompetitors = new List<RegisteredCompetitor>();
+            foreach(Competition competition in competitions)
+            {
+                foreach(RegisteredCompetitor registeredCompetitor in registeredCompetitors)
+                {
+                    if (competition.ID == registeredCompetitor.CompetitionID)
+                    {
+                        validRegisteredCompetitors.Add(registeredCompetitor);
+                    }
+                }
+                
+            }
+
+            return validRegisteredCompetitors;
         }
 
         /// <summary>

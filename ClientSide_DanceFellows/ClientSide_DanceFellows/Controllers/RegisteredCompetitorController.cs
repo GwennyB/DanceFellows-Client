@@ -30,9 +30,10 @@ namespace ClientSide_DanceFellows.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CompetitionID"] = new SelectList(await _context.ListCompetitions(), "ID", "CompetitionName");
             if (!String.IsNullOrEmpty(searchString))
             {
-                var registeredCompetitorsSearch = await _context.SearchRegisteredCompetitor(Convert.ToInt32(searchString));
+                var registeredCompetitorsSearch = await _context.SearchRegisteredCompetitor(searchString);
                 foreach (RegisteredCompetitor registeredCompetitor in registeredCompetitorsSearch)
                 {
                     Competition competiton = await _context.ShowCompetition(registeredCompetitor.CompetitionID);
@@ -87,7 +88,7 @@ namespace ClientSide_DanceFellows.Controllers
         {
 
             ViewData["ParticipantID"] = new SelectList(await _context.ListValidCompetitors(), "ID", "FullName");
-            ViewData["CompetitionID"] = new SelectList(await _context.ListCompetitions(), "ID", "CompType");
+            ViewData["CompetitionID"] = new SelectList(await _context.ListCompetitions(), "ID", "CompetitionName");
 
 
             return View();
@@ -233,6 +234,11 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(RegisteredCompetitor registeredCompetitor)
         {
+            var checkDuplicate = await _context.GetRegisteredCompetitor(registeredCompetitor.ParticipantID, registeredCompetitor.CompetitionID);
+            if (checkDuplicate != null)
+            {
+                return View(checkDuplicate);
+            }
             _context.DeleteRegisteredCompetitor(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
