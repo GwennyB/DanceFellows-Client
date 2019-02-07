@@ -263,8 +263,8 @@ namespace ClientSide_DanceFellows.Controllers
 
 
         private static HttpClient client = new HttpClient();
-        private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
-        //private string path = "http://localhost:57983/";
+        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
+        private string path = "http://localhost:57983/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
@@ -272,7 +272,6 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 return NotFound();
             }
-            List<string> data = new List<string>();
            
             Competition competition = await _context.ShowCompetition(reg.CompetitionID);
 
@@ -282,9 +281,10 @@ namespace ClientSide_DanceFellows.Controllers
             reg.Competition = null;
             reg.Participant = null;
 
-            data.Add(JsonConvert.SerializeObject(competition));
-            data.Add(JsonConvert.SerializeObject(reg));
-            data.Add(JsonConvert.SerializeObject(participant));
+            List<object> data = new List<object>();
+            data.Add(competition);
+            data.Add(participant);
+            data.Add(reg);
 
             try
             {
