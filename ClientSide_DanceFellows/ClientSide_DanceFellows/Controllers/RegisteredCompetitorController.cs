@@ -263,8 +263,8 @@ namespace ClientSide_DanceFellows.Controllers
 
 
         private static HttpClient client = new HttpClient();
-        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
-        private string path = "http://localhost:57983/";
+        private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
+        //private string path = "http://localhost:57983/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
