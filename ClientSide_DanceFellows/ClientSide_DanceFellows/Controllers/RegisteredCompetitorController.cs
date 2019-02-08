@@ -116,6 +116,7 @@ namespace ClientSide_DanceFellows.Controllers
                 await CreateResult(registeredCompetitor);
                 return RedirectToAction(nameof(Index));
             }
+            await CreateResult(registeredCompetitor);
             return View(registeredCompetitor);
         }
 
@@ -152,7 +153,7 @@ namespace ClientSide_DanceFellows.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.UpdateRegisteredCompetitor(registeredCompetitor);
-                    //TODO: await UpdateResult(registeredCompetitor);
+                    await UpdateResult(registeredCompetitor);
                 }
             }
 
@@ -235,6 +236,7 @@ namespace ClientSide_DanceFellows.Controllers
         public async Task<IActionResult> Delete(RegisteredCompetitor registeredCompetitor)
         {
             _context.DeleteRegisteredCompetitor(registeredCompetitor);
+            await DeleteResult(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
 
@@ -247,7 +249,7 @@ namespace ClientSide_DanceFellows.Controllers
             test.CompetitionID = 7;
             test.EventID = 2;
             test.Role = Role.Lead;
-            test.Placement = Placement.Position2;
+            test.Placement = Placement.Position1;
             test.BibNumber = 150;
             test.ChiefJudgeScore = 1;
             test.JudgeOneScore = 1;
