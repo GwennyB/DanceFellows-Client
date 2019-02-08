@@ -239,32 +239,32 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> CallAPI()
-        //{
-        //    RegisteredCompetitor test = new RegisteredCompetitor();
-        //    test.ParticipantID = 12;
-        //    test.CompetitionID = 7;
-        //    test.EventID = 2;
-        //    test.Role = Role.Lead;
-        //    test.Placement = Placement.Position2;
-        //    test.BibNumber = 150;
-        //    test.ChiefJudgeScore = 1;
-        //    test.JudgeOneScore = 1;
-        //    test.JudgeTwoScore = 1;
-        //    test.JudgeTwoScore = 1;
-        //    test.JudgeThreeScore = 1;
-        //    test.JudgeFourScore = 1;
-        //    test.JudgeFiveScore = 1;
-        //    test.JudgeSixScore = 1;
+        [HttpGet]
+        public async Task<IActionResult> CallAPI()
+        {
+            RegisteredCompetitor test = new RegisteredCompetitor();
+            test.ParticipantID = 12;
+            test.CompetitionID = 7;
+            test.EventID = 2;
+            test.Role = Role.Lead;
+            test.Placement = Placement.Position2;
+            test.BibNumber = 150;
+            test.ChiefJudgeScore = 1;
+            test.JudgeOneScore = 1;
+            test.JudgeTwoScore = 1;
+            test.JudgeTwoScore = 1;
+            test.JudgeThreeScore = 1;
+            test.JudgeFourScore = 1;
+            test.JudgeFiveScore = 1;
+            test.JudgeSixScore = 1;
 
-        //    return await DeleteResult(test);
-        //}
-        //private string path = "http://localhost:57983/";
+            return await DeleteResult(test);
+        }
+        private string path = "http://localhost:57983/";
 
 
         private static HttpClient client = new HttpClient();
-        private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
+        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
