@@ -5,6 +5,8 @@
 }
 <h1>All Competitors</h1>
 @{<partial name="_NavbarPartial" />}
+<br />
+<br />
 <form asp-controller="RegisteredCompetitor" asp-action="Index">
     <p>
         Competition: <input name="SearchString" method="get">
@@ -12,7 +14,7 @@
     </p>
 </form>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 <form asp-controller="RegisteredCompetitor" asp-action="Score">
     <table class="table">
