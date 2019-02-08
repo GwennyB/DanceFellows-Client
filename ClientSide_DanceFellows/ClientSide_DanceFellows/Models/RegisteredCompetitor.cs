@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -46,7 +47,6 @@ namespace ClientSide_DanceFellows.Models
         public int JudgeSixScore { get; set; }
 
         //navigation properties
-
         public Participant Participant { get; set; }
         public Competition Competition { get; set; }
     }

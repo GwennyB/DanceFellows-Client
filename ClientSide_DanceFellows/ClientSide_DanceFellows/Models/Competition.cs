@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace ClientSide_DanceFellows.Models
 
 
         //navigation properties
+        [JsonIgnore]
         public ICollection<RegisteredCompetitor> RegisteredCompetitors { get; set; }
     }
 
