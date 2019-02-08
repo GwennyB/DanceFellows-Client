@@ -238,33 +238,32 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<RegisteredCompetitor> CallAPI()
-        {
-            RegisteredCompetitor test = new RegisteredCompetitor();
-            test.ParticipantID = 9;
-            test.CompetitionID = 2;
-            test.EventID = 1;
-            test.Role = Role.Lead;
-            test.Placement = Placement.Position1;
-            test.BibNumber = 150;
-            test.ChiefJudgeScore = 1;
-            test.JudgeOneScore = 1;
-            test.JudgeTwoScore = 1;
-            test.JudgeTwoScore = 1;
-            test.JudgeThreeScore = 1;
-            test.JudgeFourScore = 1;
-            test.JudgeFiveScore = 1;
-            test.JudgeSixScore = 1;
+        //[HttpGet]
+        //public async Task<IActionResult> CallAPI()
+        //{
+        //    RegisteredCompetitor test = new RegisteredCompetitor();
+        //    test.ParticipantID = 12;
+        //    test.CompetitionID = 7;
+        //    test.EventID = 2;
+        //    test.Role = Role.Lead;
+        //    test.Placement = Placement.Position2;
+        //    test.BibNumber = 150;
+        //    test.ChiefJudgeScore = 1;
+        //    test.JudgeOneScore = 1;
+        //    test.JudgeTwoScore = 1;
+        //    test.JudgeTwoScore = 1;
+        //    test.JudgeThreeScore = 1;
+        //    test.JudgeFourScore = 1;
+        //    test.JudgeFiveScore = 1;
+        //    test.JudgeSixScore = 1;
 
-            await CreateResult(test);
-            return test;
-        }
+        //    return await DeleteResult(test);
+        //}
+        //private string path = "http://localhost:57983/";
 
 
         private static HttpClient client = new HttpClient();
-        //private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
-        private string path = "http://localhost:57983/";
+        private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
 
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
@@ -272,19 +271,8 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 return NotFound();
             }
-           
-            Competition competition = await _context.ShowCompetition(reg.CompetitionID);
 
-            Participant participant = await _context.ShowParticipant(reg.ParticipantID);
-
-            competition.RegisteredCompetitors = null;
-            reg.Competition = null;
-            reg.Participant = null;
-
-            List<object> data = new List<object>();
-            data.Add(competition);
-            data.Add(participant);
-            data.Add(reg);
+            List<object> data = await BuildRegistrationObject(reg);
 
             try
             {
@@ -299,20 +287,19 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
         }
-
+        
         private async Task<IActionResult> UpdateResult(RegisteredCompetitor reg)
         {
             if (reg == null)
             {
                 return NotFound();
             }
-            List<string> data = new List<string>();
-            data.Add(JsonConvert.SerializeObject(reg.Participant));
-            data.Add(JsonConvert.SerializeObject(reg));
-            data.Add(JsonConvert.SerializeObject(reg.Competition));
+
+            List<object> data = await BuildRegistrationObject(reg);
+
             try
             {
-                HttpResponseMessage response = await client.PutAsJsonAsync("Results/Update", data);
+                HttpResponseMessage response = await client.PutAsJsonAsync(path+"Results/Update", data);
                 response.EnsureSuccessStatusCode();
                 Response.StatusCode = 200;
                 return Ok();
@@ -324,15 +311,42 @@ namespace ClientSide_DanceFellows.Controllers
             }
         }
 
+        private async Task<List<object>> BuildRegistrationObject(RegisteredCompetitor reg)
+        {
+            if (reg == null)
+            {
+                return null;
+            }
+            List<object> data = new List<object>();
+
+            Competition competition = await _context.ShowCompetition(reg.CompetitionID);
+
+            Participant participant = await _context.ShowParticipant(reg.ParticipantID);
+
+            competition.RegisteredCompetitors = null;
+            reg.Competition = null;
+            reg.Participant = null;
+
+            string package = JsonConvert.SerializeObject(competition) + " | " +
+                            JsonConvert.SerializeObject(reg) + " | " +
+                            JsonConvert.SerializeObject(participant);
+
+            data.Add(competition);
+            data.Add(participant);
+            data.Add(reg);
+            return data;
+        }
+
         private async Task<IActionResult> DeleteResult(RegisteredCompetitor reg)
         {
             if (reg == null)
             {
                 return NotFound();
             }
+            List<object> data = await BuildRegistrationObject(reg);
             try
             {
-                HttpResponseMessage response = await client.DeleteAsync($"Results/Delete/?EventID={reg.EventID}&CompetitorID={reg.ParticipantID}&CompType={reg.Competition.CompType}&Level={reg.Competition.Level}");
+                HttpResponseMessage response = await client.PostAsJsonAsync(path + "Results/Delete", data);
                 response.EnsureSuccessStatusCode();
                 Response.StatusCode = 200;
                 return Ok();
