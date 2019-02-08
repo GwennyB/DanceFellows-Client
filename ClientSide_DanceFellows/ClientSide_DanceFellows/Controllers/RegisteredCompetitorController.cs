@@ -234,11 +234,6 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(RegisteredCompetitor registeredCompetitor)
         {
-            var checkDuplicate = await _context.GetRegisteredCompetitor(registeredCompetitor.ParticipantID, registeredCompetitor.CompetitionID);
-            if (checkDuplicate != null)
-            {
-                return View(checkDuplicate);
-            }
             _context.DeleteRegisteredCompetitor(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
