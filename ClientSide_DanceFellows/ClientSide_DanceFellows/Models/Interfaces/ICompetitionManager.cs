@@ -7,29 +7,39 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 {
     public interface ICompetitionManager
     {
-        //Create Competition
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <param name="competition"></param>
+        /// <returns></returns>
         Task CreateCompetition(Competition competition);
 
-        //Read An Competition
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<Competition> GetCompetition(int id);
 
-        //Read ALL Amenities
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<Competition>> GetCompetitions();
 
-        //Update A Competition
-        void UpdateCompetition(Competition competition);
-
-        //Delete A Competition
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <param name="competition"></param>
         void DeleteCompetition(Competition competition);
-
-        void DeleteCompetition(int id);
-
-        //Search Competitions
-        Task<IEnumerable<Competition>> SearchCompetitions(CompType compType);
 
         //Navagation Properties
 
-        //Read ALL RegisteredCompetitiors
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors(int id);
 
     }

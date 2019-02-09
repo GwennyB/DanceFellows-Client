@@ -77,31 +77,6 @@ namespace ClientSide_DanceFellows.Models.Services
         }
 
         /// <summary>
-        /// Searches ALL Competitions and returns ALL the CONTAIN compType
-        /// </summary>
-        /// <param name="compType"></param>
-        /// <returns></returns>
-        public async Task<IEnumerable<Competition>> SearchCompetitions(CompType compType)
-        {
-            var competitions = from a in _context.Competitions
-                               select a;
-
-            competitions = competitions.Where(a => a.CompType == compType);
-
-            return await competitions.ToListAsync();
-        }
-
-        /// <summary>
-        /// Receives a Competition and updates it in DB
-        /// </summary>
-        /// <param name="competition"></param>
-        public void UpdateCompetition(Competition competition)
-        {
-            _context.Competitions.Update(competition);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
         /// Finds all Competitors that have registered for Competition and returns a list of RegisteredCompetitors.
         /// </summary>
         /// <param name="id"></param>
