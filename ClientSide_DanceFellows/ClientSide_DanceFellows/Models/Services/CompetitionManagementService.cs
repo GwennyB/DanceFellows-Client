@@ -47,17 +47,6 @@ namespace ClientSide_DanceFellows.Models.Services
         }
 
         /// <summary>
-        /// Performs a search using id as an input then removes competition that matches input id.
-        /// </summary>
-        /// <param name="id"></param>
-        public void DeleteCompetition(int id)
-        {
-            Competition competition = _context.Competitions.FirstOrDefault(c => c.ID == id);
-            _context.Competitions.Remove(competition);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
         /// Finds a Competition using Competition.ID as search critera and returns Competition.
         /// </summary>
         /// <param name="id"></param>

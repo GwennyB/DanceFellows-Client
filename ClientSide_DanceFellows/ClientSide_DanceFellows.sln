@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientSide_DanceFellows", "ClientSide_DanceFellows\ClientSide_DanceFellows.csproj", "{87EDE4C1-B99C-49C2-8BAE-45ECBD4C21FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTestSuite", "TableTestSuite\TableTestSuite.csproj", "{DB402D7D-6155-4982-922E-3B9D1686FB03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TableTestSuite", "TableTestSuite\TableTestSuite.csproj", "{DB402D7D-6155-4982-922E-3B9D1686FB03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTestSuite", "ServicesTestSuite\ServicesTestSuite.csproj", "{5EBF926C-DCD5-4E9F-8BD9-FF47A08FEF77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DB402D7D-6155-4982-922E-3B9D1686FB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB402D7D-6155-4982-922E-3B9D1686FB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB402D7D-6155-4982-922E-3B9D1686FB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EBF926C-DCD5-4E9F-8BD9-FF47A08FEF77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EBF926C-DCD5-4E9F-8BD9-FF47A08FEF77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EBF926C-DCD5-4E9F-8BD9-FF47A08FEF77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EBF926C-DCD5-4E9F-8BD9-FF47A08FEF77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
