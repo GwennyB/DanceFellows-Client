@@ -130,6 +130,120 @@ namespace ServicesTestSuite
                 }
             }
         }
-        
-    }
+        public class ParticipantServicesTestSuite
+        {
+            public Participant CreateParticipant()
+            {
+                RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+                List<RegisteredCompetitor> listRC = new List<RegisteredCompetitor>();
+                listRC.Add(testRegisteredCompetitor);
+                Participant testParticipant = new Participant() { ID = 1, WSC_ID = 1, FirstName = "JimBob", LastName = "Franklin", MinLevel = Level.Novice, MaxLevel = Level.Advanced, EligibleCompetitor = true, RegisteredCompetitors = listRC };
+
+                return testParticipant;
+            }
+
+            [Fact]
+            public async void CanCreateParticipant()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("CreateParticipant").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    Participant testParticipant = CreateParticipant();
+
+                    ParticipantManagementService participantService = new ParticipantManagementService(context);
+
+                    await participantService.CreateParticipant(testParticipant);
+
+                    var result = context.Participants.FirstOrDefault(a => a.ID == testParticipant.ID);
+
+                    Assert.Equal(testParticipant, result);
+                }
+            }
+
+            [Fact]
+            public async void CanDeleteParticipant()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("DeleteParticipant").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    Participant testParticipant = CreateParticipant();
+
+                    ParticipantManagementService participantService = new ParticipantManagementService(context);
+
+                    await participantService.CreateParticipant(testParticipant);
+                    participantService.DeleteParticipant(testParticipant);
+
+                    var result = context.Participants.FirstOrDefault(a => a.ID == testParticipant.ID);
+
+                    Assert.Null(result);
+                }
+            }
+
+            [Fact]
+            public async void CanGetParticipant()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetParticipant").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    Participant testParticipant = CreateParticipant();
+
+                    ParticipantManagementService participantService = new ParticipantManagementService(context);
+
+                    await participantService.CreateParticipant(testParticipant);
+                    Participant expected = context.Participants.FirstOrDefault(a => a.ID == testParticipant.ID);
+                    Participant actual = await participantService.GetParticipant(testParticipant.ID);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Fact]
+            public async void CanGetParticipants()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetParticipants").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    Participant testParticipant = CreateParticipant();
+
+                    RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 2 };
+                    List<RegisteredCompetitor> listRC = new List<RegisteredCompetitor>();
+                    listRC.Add(testRegisteredCompetitor);
+                    Participant testParticipant1 = new Participant() { ID = 2, WSC_ID = 2, FirstName = "Ricky", LastName = "Bobby", MinLevel = Level.Novice, MaxLevel = Level.Advanced, EligibleCompetitor = true, RegisteredCompetitors = listRC };
+
+                    ParticipantManagementService participantService = new ParticipantManagementService(context);
+
+                    await participantService.CreateParticipant(testParticipant);
+                    await participantService.CreateParticipant(testParticipant1);
+                    IEnumerable<Participant> expected = new List<Participant> { testParticipant, testParticipant1 };
+                    IEnumerable<Participant> actual = await participantService.GetParticipants();
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Fact]
+            public async void CanGetRegisteredCompetitors()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetRegisteredCompetitors").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    Participant testParticipant = CreateParticipant();
+
+                    ParticipantManagementService participantService = new ParticipantManagementService(context);
+
+                    await participantService.CreateParticipant(testParticipant);
+
+                    IEnumerable<RegisteredCompetitor> expected = testParticipant.RegisteredCompetitors;
+                    IEnumerable<RegisteredCompetitor> actual = await participantService.GetRegisteredCompetitors(testParticipant.ID);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+        }
+    }       
 }
