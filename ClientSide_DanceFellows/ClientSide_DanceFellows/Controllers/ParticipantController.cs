@@ -31,30 +31,6 @@ namespace ClientSide_DanceFellows.Controllers
             return View(await _context.GetParticipants());
         }
 
-        //TODO: Need to add a connection to API so that a user can be populated from existing data.
-
-
-        /// <summary>
-        /// GET: This will handle a person pressing the details button on the Participant Index Page. It will open a view of the selected participant.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Competition</returns>
-        public async Task<IActionResult> Details(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-
-            var participant = await _context.GetParticipant(id);
-            if (participant == null)
-            {
-                return NotFound();
-            }
-
-            return View(participant);
-        }
-
         /// <summary>
         /// GET: Route user to Create view.
         /// </summary>
@@ -65,7 +41,7 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// Once the submit button is pressed it will add new Participant to database and return user to Index page.
+        /// When WSC ID is entered and submit is pressed it will create new participant based off of data received from API.
         /// </summary>
         /// <param name="participant"></param>
         /// <returns>Redirect to Index page</returns>
@@ -81,50 +57,6 @@ namespace ClientSide_DanceFellows.Controllers
                 return RedirectToAction(nameof(Index));
             }
                 
-            return View(participant);
-        }
-
-        /// <summary>
-        /// When edit is selected will redirect to a edit page with the Participant information.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> Edit(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-
-            var participant = await _context.GetParticipant(id);
-            if (participant == null)
-            {
-                return NotFound();
-            }
-            return View(participant);
-        }
-
-        /// <summary>
-        /// When submit button is pressed will check if valid and will then update DB entry,
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="participant"></param>
-        /// <returns>Back to Index</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID, WSC_ID, FirstName, LastName, MinLevel, MaxLevel")] Participant participant)
-        {
-            if (id != participant.ID)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                
-                _context.UpdateParticipant(participant);
-
-                return RedirectToAction(nameof(Index));
-            }
             return View(participant);
         }
 
@@ -151,7 +83,7 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// Takes in a Competition and removes it from the DB
+        /// Takes in a Competition and removes it from the Clientside DB.
         /// </summary>
         /// <param name="competition"></param>
         /// <returns></returns>
@@ -159,7 +91,6 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Participant participant)
         {
-           
             _context.DeleteParticipant(participant);
             return RedirectToAction(nameof(Index));
         }

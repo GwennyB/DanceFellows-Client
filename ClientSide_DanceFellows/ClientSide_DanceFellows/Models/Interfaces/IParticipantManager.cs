@@ -7,36 +7,39 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 {
     public interface IParticipantManager
     {
-        //Create Participant
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <param name="participant"></param>
+        /// <returns></returns>
         Task CreateParticipant(Participant participant);
 
-        //Read An Participant
+        /// <summary>
+        /// Create Competition
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<Participant> GetParticipant(int id);
 
-        //Read ALL Participants
+        /// <summary>
+        /// Read ALL Participants
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<Participant>> GetParticipants();
 
-        //Update A Participant
-        void UpdateParticipant(Participant participant);
-
-        //Delete A Participant
+        /// <summary>
+        /// Read ALL Participants
+        /// </summary>
+        /// <param name="participant"></param>
         void DeleteParticipant(Participant participant);
-
-        void DeleteParticipant(int id);
-
-        //Search Participants
-        Task<IEnumerable<Participant>> SearchParticipants(string lastName);
 
         //Navagation Properties
 
-        ////Add NavProp to RegisteredCompetitors
-        //Task AddParticipantAssociation(Participant participant);
-
-        ////Remove NavProp from RegisteredCompetitors
-        //Task RemoveParticipantAssociation(Participant participant);
-
-
-        //Read ALL RegisteredCompetitiors
+        /// <summary>
+        /// Read ALL Participants
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors(int id);
 
     }

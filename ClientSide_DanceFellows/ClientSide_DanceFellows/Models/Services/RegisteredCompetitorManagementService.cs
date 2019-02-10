@@ -46,21 +46,8 @@ namespace ClientSide_DanceFellows.Models.Services
         /// Removes a RegisteredCompetitor from the database using registeredCompetitor as an input.
         /// </summary>
         /// <param name="registeredCompetitor"></param>
-        public void DeleteRegisteredCompetitor(RegisteredCompetitor registeredCompetitor)
+        public async Task DeleteRegisteredCompetitor(RegisteredCompetitor registeredCompetitor)
         {
-            _context.RegisteredCompetitors.Remove(registeredCompetitor);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Searches for RegisteredCompetitor using composite key info and removes from DB.
-        /// </summary>
-        /// <param name="participantID"></param>
-        /// <param name="competitionID"></param>
-        public void DeleteRegisteredCompetitor(int participantID, int competitionID)
-        {
-            RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.CompetitionID == competitionID && rc.ParticipantID == participantID);
-
             _context.RegisteredCompetitors.Remove(registeredCompetitor);
             _context.SaveChanges();
         }
@@ -73,6 +60,10 @@ namespace ClientSide_DanceFellows.Models.Services
             return await _context.RegisteredCompetitors.FirstOrDefaultAsync(rc => rc.CompetitionID == competitionID && rc.ParticipantID == participantID);
         }
 
+        /// <summary>
+        /// Returns all existing RegisteredCompetitors
+        /// </summary>
+        /// <returns>List of RegisteredCompetitors</returns>
         public async Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors()
         {
             return await _context.RegisteredCompetitors.ToListAsync();
@@ -112,32 +103,50 @@ namespace ClientSide_DanceFellows.Models.Services
         /// Updates and existing RegisteredCompetitor
         /// </summary>
         /// <param name="registeredCompetitor"></param>
-        public void UpdateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor)
+        public async Task UpdateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor)
         {
             _context.RegisteredCompetitors.Update(registeredCompetitor);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         // Nav Props     
 
+        /// <summary>
+        /// Only lists participants that have a WSC ID
+        /// </summary>
+        /// <returns>List of Valid Competitors</returns>
         public async Task<IEnumerable<Participant>> ListValidCompetitors()
         {
             var validCompetitors = _context.Participants.Where(vc => vc.EligibleCompetitor == true);
             return validCompetitors;
         }
 
+        /// <summary>
+        /// Returns a list of all existing Competitions
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<Competition>> ListCompetitions()
         {
             var competitions = _context.Competitions;
             return competitions;
         }
 
+        /// <summary>
+        /// Returns nav prop Participant
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <returns></returns>
         public async Task<Participant> ShowParticipant(int participantID)
         {
             var participant = await _context.Participants.FirstOrDefaultAsync(p => p.ID == participantID);
             return participant;
         }
 
+        /// <summary>
+        /// Returns nav prop Competition
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <returns></returns>
         public async Task<Competition> ShowCompetition(int participantID)
         {
             var competition = await _context.Competitions.FirstOrDefaultAsync(p => p.ID == participantID);

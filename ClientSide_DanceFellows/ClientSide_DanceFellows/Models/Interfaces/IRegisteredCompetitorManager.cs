@@ -10,38 +10,75 @@ namespace ClientSide_DanceFellows.Models.Interfaces
 {
     public interface IRegisteredCompetitorManager
     {
-        //Create RegisteredCompetitor
+        /// <summary>
+        /// Create RegisteredCompetitor
+        /// </summary>
+        /// <param name="registeredCompetitor"></param>
+        /// <returns></returns>
         Task CreateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
 
-        //Read An RegisteredCompetitor
+        /// <summary>
+        /// Read An RegisteredCompetitor
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <param name="competitionID"></param>
+        /// <returns></returns>
         Task<RegisteredCompetitor> GetRegisteredCompetitor(int participantID, int competitionID);
 
-        //Read ALL RegisteredCompetitor
+        /// <summary>
+        /// Read ALL RegisteredCompetitor
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<RegisteredCompetitor>> GetRegisteredCompetitors();
 
-        //Update A RegisteredCompetitor
-        void UpdateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
+        /// <summary>
+        /// Update A RegisteredCompetitor
+        /// </summary>
+        /// <param name="registeredCompetitor"></param>
+        /// <returns></returns>
+        Task UpdateRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
 
-        //Delete A RegisteredCompetitor
-        void DeleteRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
+        /// <summary>
+        /// Update A RegisteredCompetitor
+        /// </summary>
+        /// <param name="registeredCompetitor"></param>
+        /// <returns></returns>
+        Task DeleteRegisteredCompetitor(RegisteredCompetitor registeredCompetitor);
 
-        void DeleteRegisteredCompetitor(int participantID, int competitionID);
-
-        //Search RegisteredCompetitor
+        /// <summary>
+        /// Search RegisteredCompetitor
+        /// </summary>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
         Task<IEnumerable<RegisteredCompetitor>> SearchRegisteredCompetitor(string searchString);
 
         //Navagation Properties
 
+        /// <summary>
+        /// Shows nav prop Participant
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <returns></returns>
         Task<Participant> ShowParticipant(int participantID);
 
+        /// <summary>
+        /// Shows nav prop Competition
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <returns></returns>
         Task<Competition> ShowCompetition(int participantID);
 
-        //Searches through participants and only lists ones that have WSC ID
+        /// <summary>
+        /// Searches through participants and only lists ones that have WSC ID
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<Participant>> ListValidCompetitors();
 
-        //Show Existing Competitions
+        /// <summary>
+        /// Show Existing Competitions
+        /// </summary>
+        /// <returns></returns>
         Task<IEnumerable<Competition>> ListCompetitions();
 
-        //TODO: Add submit to API Task
     }
 }

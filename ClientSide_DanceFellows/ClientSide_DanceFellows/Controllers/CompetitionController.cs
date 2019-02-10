@@ -28,27 +28,6 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// GET: This will handle a person pressing the details button on the Competition Index Page. It will open a view of the selected competition.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>Competition</returns>
-        public async Task<IActionResult> Details(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-
-            var competition = await _context.GetCompetition(id);
-            if (competition == null)
-            {
-                return NotFound();
-            }
-
-            return View(competition);
-        }
-
-        /// <summary>
         /// GET: Route user to Create view.
         /// </summary>
         /// <returns></returns>
@@ -70,49 +49,6 @@ namespace ClientSide_DanceFellows.Controllers
             {
                 await _context.CreateCompetition(competition);
 
-                return RedirectToAction(nameof(Index));
-            }
-            return View(competition);
-        }
-
-        /// <summary>
-        /// When edit is selected will redirect to a edit page with the competition information.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> Edit(int id)
-        {
-            if (id == 0)
-            {
-                return NotFound();
-            }
-
-            var competition = await _context.GetCompetition(id);
-            if (competition == null)
-            {
-                return NotFound();
-            }
-            return View(competition);
-        }
-
-        /// <summary>
-        /// When submit button is pressed will check if valid and will then update DB entry,
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="competition"></param>
-        /// <returns>Back to Index</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CompType,Level")] Competition competition)
-        {
-            if (id != competition.ID)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                _context.UpdateCompetition(competition);
-                
                 return RedirectToAction(nameof(Index));
             }
             return View(competition);
@@ -164,6 +100,5 @@ namespace ClientSide_DanceFellows.Controllers
 
             return registeredCompetitors;
         }
-
     }
 }

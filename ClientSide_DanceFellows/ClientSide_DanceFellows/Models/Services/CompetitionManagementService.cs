@@ -47,17 +47,6 @@ namespace ClientSide_DanceFellows.Models.Services
         }
 
         /// <summary>
-        /// Performs a search using id as an input then removes competition that matches input id.
-        /// </summary>
-        /// <param name="id"></param>
-        public void DeleteCompetition(int id)
-        {
-            Competition competition = _context.Competitions.FirstOrDefault(c => c.ID == id);
-            _context.Competitions.Remove(competition);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
         /// Finds a Competition using Competition.ID as search critera and returns Competition.
         /// </summary>
         /// <param name="id"></param>
@@ -74,31 +63,6 @@ namespace ClientSide_DanceFellows.Models.Services
         public async Task<IEnumerable<Competition>> GetCompetitions()
         {
             return await _context.Competitions.ToListAsync();
-        }
-
-        /// <summary>
-        /// Searches ALL Competitions and returns ALL the CONTAIN compType
-        /// </summary>
-        /// <param name="compType"></param>
-        /// <returns></returns>
-        public async Task<IEnumerable<Competition>> SearchCompetitions(CompType compType)
-        {
-            var competitions = from a in _context.Competitions
-                               select a;
-
-            competitions = competitions.Where(a => a.CompType == compType);
-
-            return await competitions.ToListAsync();
-        }
-
-        /// <summary>
-        /// Receives a Competition and updates it in DB
-        /// </summary>
-        /// <param name="competition"></param>
-        public void UpdateCompetition(Competition competition)
-        {
-            _context.Competitions.Update(competition);
-            _context.SaveChanges();
         }
 
         /// <summary>

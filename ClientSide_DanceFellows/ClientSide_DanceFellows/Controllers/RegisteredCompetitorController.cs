@@ -23,7 +23,7 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// GET: "Filter" by CompID or
+        /// GET: Will filter by comptype and or level.
         /// display all if null
         /// </summary>
         /// <param name="searchString">filter to apply</param>
@@ -59,31 +59,9 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// GET: This will handle a person pressing the details button on the RegisteredCompetitors Index Page. It will open a view of the selected RegisteredCompetitor.
+        /// GET: Routes user to Create view.
         /// </summary>
-        /// <param name="participantID"></param>
-        /// <param name="competitiorID"></param>
-        /// <returns>RegisteredCompetitor</returns>
-        public async Task<IActionResult> Details(int participantID, int competitiorID)
-        {
-            if (participantID == 0 || competitiorID == 0)
-            {
-                return NotFound();
-            }
-
-            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitiorID);
-            if (registeredCompetitor == null)
-            {
-                return NotFound();
-            }
-
-            return View(registeredCompetitor);
-        }
-
-        /// <summary>
-        /// GET: Route user to Create view.
-        /// </summary>
-        /// <returns></returns>
+        /// <returns>Create View</returns>
         public async Task<IActionResult> Create()
         {
 
@@ -95,7 +73,7 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// Once the submit button is pressed it will add new RegisteredCompetitor and add RegisteredCompetitor to Competition and Participant nav props then save to database and return user to Index page.
+        /// POST: Once the submit button is pressed it will add new RegisteredCompetitor to Clientside and API DB then will redirect to Index page.
         /// </summary>
         /// <param name="competition"></param>
         /// <returns>Redirect to Index page</returns>
@@ -116,11 +94,26 @@ namespace ClientSide_DanceFellows.Controllers
                 await CreateResult(registeredCompetitor);
                 return RedirectToAction(nameof(Index));
             }
-            await CreateResult(registeredCompetitor);
+            
             return View(registeredCompetitor);
         }
 
 
+        /// <summary>
+        /// POST: Receives properties arrays when Score button is pressed and runs a for loop to create a registered competitor from those results then updates existing registered competitor with updated properties and saves to clientside db. Then updates API Db.
+        /// </summary>
+        /// <param name="participantID"></param>
+        /// <param name="competitionID"></param>
+        /// <param name="role"></param>
+        /// <param name="bibNumber"></param>
+        /// <param name="chiefJudgeScore"></param>
+        /// <param name="judgeOneScore"></param>
+        /// <param name="judgeTwoScore"></param>
+        /// <param name="judgeThreeScore"></param>
+        /// <param name="judgeFourScore"></param>
+        /// <param name="judgeFiveScore"></param>
+        /// <param name="judgeSixScore"></param>
+        /// <returns>Then returns back to directors dashboard.</returns>
         [HttpPost, ActionName("Score")]
         public async Task<IActionResult> Score(int[] participantID, int[] competitionID, Role[] role, int[] bibNumber, int[] chiefJudgeScore, int[] judgeOneScore, int[] judgeTwoScore, int[] judgeThreeScore, int[] judgeFourScore, int[] judgeFiveScore, int[] judgeSixScore)
         {
@@ -131,6 +124,8 @@ namespace ClientSide_DanceFellows.Controllers
                 registeredCompetitor.ParticipantID = participantID[i];
 
                 registeredCompetitor.CompetitionID = competitionID[i];
+
+                registeredCompetitor.EventID = 1;
 
                 registeredCompetitor.Role = role[i];
 
@@ -152,65 +147,21 @@ namespace ClientSide_DanceFellows.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _context.UpdateRegisteredCompetitor(registeredCompetitor);
-                    await UpdateResult(registeredCompetitor);
+                    await _context.UpdateRegisteredCompetitor(registeredCompetitor);
+                    //TODO: Gwen I have no idea how to fix this.
+                    //await UpdateResult(registeredCompetitor);                 
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Home");
         }
-
-
+        
 
         /// <summary>
-        /// When edit is selected will redirect to a edit page with the RegisteredCompetitor information.
+        /// Searches for registeredCompetitor and if found will load Delete page with received registered competitior.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> Edit(int participantID, int competitiorID)
-        {
-            if (participantID == 0 || competitiorID == 0)
-            {
-                return NotFound();
-            }
-
-            var registeredCompetitor = await _context.GetRegisteredCompetitor(participantID, competitiorID);
-            if (registeredCompetitor == null)
-            {
-                return NotFound();
-            }
-            return View(registeredCompetitor);
-        }
-
-        /// <summary>
-        /// When submit button is pressed will check if valid update nave props and will then update DB entry,
-        /// </summary>
-        /// <param name="participantID"></param>
-        /// <param name="competitiorID"></param>
-        /// <param name="registeredCompetitor"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int participantID, int competitiorID, [Bind("ParticipantID,CompetitionID,Role,Placement,BibNumber,ChiefJudgeScore,JudgeOneScore,JudgeTwoScore,JudgeThreeScore,JudgeFourScore,JudgeFiveScore,JudgeSixScore,Participant,Competition")] RegisteredCompetitor registeredCompetitor)
-        {
-            if (participantID != registeredCompetitor.ParticipantID || competitiorID != registeredCompetitor.CompetitionID)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                _context.UpdateRegisteredCompetitor(registeredCompetitor);
-
-                return RedirectToAction(nameof(Index));
-            }
-            return View(registeredCompetitor);
-        }
-
-        /// <summary>
-        /// Searches for registeredCompetitor and returns if found
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>registeredCompetitor</returns>
+        /// <returns>Delete page with registered competitor,</returns>
         public async Task<IActionResult> Delete(int participantID, int competitionID)
         {
             if (participantID == 0 || competitionID == 0)
@@ -227,7 +178,7 @@ namespace ClientSide_DanceFellows.Controllers
         }
 
         /// <summary>
-        /// Takes in a registeredCompetitor and removes it from the DB and removes nav prop associations
+        /// Takes in a registeredCompetitor and removes it from the clientside DB and removes it from the API db.
         /// </summary>
         /// <param name="competition"></param>
         /// <returns></returns>
@@ -235,11 +186,10 @@ namespace ClientSide_DanceFellows.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(RegisteredCompetitor registeredCompetitor)
         {
-            _context.DeleteRegisteredCompetitor(registeredCompetitor);
+            await _context.DeleteRegisteredCompetitor(registeredCompetitor);
             await DeleteResult(registeredCompetitor);
             return RedirectToAction(nameof(Index));
         }
-
 
         //[HttpGet]
         //public async Task<IActionResult> CallAPI()
@@ -264,10 +214,15 @@ namespace ClientSide_DanceFellows.Controllers
         //}
         //private string path = "http://localhost:57983/";
 
-
+        
         private static HttpClient client = new HttpClient();
         private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
 
+        /// <summary>
+        /// Creates a new API DB entry from input Registered Competitor.
+        /// </summary>
+        /// <param name="reg"></param>
+        /// <returns>Status code</returns>
         private async Task<IActionResult> CreateResult(RegisteredCompetitor reg)
         {
             if (reg == null)
@@ -291,6 +246,11 @@ namespace ClientSide_DanceFellows.Controllers
             }
         }
         
+        /// <summary>
+        /// Updates an existing API RegisteredCompetitor.
+        /// </summary>
+        /// <param name="reg"></param>
+        /// <returns>Response Code</returns>
         private async Task<IActionResult> UpdateResult(RegisteredCompetitor reg)
         {
             if (reg == null)
@@ -314,6 +274,11 @@ namespace ClientSide_DanceFellows.Controllers
             }
         }
 
+        /// <summary>
+        /// Serialized RegisteredCompetitor into JSON object.
+        /// </summary>
+        /// <param name="reg"></param>
+        /// <returns>JSON Object</returns>
         private async Task<List<object>> BuildRegistrationObject(RegisteredCompetitor reg)
         {
             if (reg == null)
@@ -323,12 +288,15 @@ namespace ClientSide_DanceFellows.Controllers
             List<object> data = new List<object>();
 
             Competition competition = await _context.ShowCompetition(reg.CompetitionID);
+            reg.Competition = competition;
 
             Participant participant = await _context.ShowParticipant(reg.ParticipantID);
+            reg.Participant = participant;
 
             competition.RegisteredCompetitors = null;
             reg.Competition = null;
             reg.Participant = null;
+            participant.RegisteredCompetitors = null;
 
             string package = JsonConvert.SerializeObject(competition) + " | " +
                             JsonConvert.SerializeObject(reg) + " | " +
@@ -340,6 +308,11 @@ namespace ClientSide_DanceFellows.Controllers
             return data;
         }
 
+        /// <summary>
+        /// Removes and existing API RegisteredCompetitor.
+        /// </summary>
+        /// <param name="reg"></param>
+        /// <returns>Status Code</returns>
         private async Task<IActionResult> DeleteResult(RegisteredCompetitor reg)
         {
             if (reg == null)
