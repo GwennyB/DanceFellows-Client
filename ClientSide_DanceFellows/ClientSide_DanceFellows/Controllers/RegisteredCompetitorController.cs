@@ -147,9 +147,8 @@ namespace ClientSide_DanceFellows.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _context.UpdateRegisteredCompetitor(registeredCompetitor);
-                    //TODO: Gwen I have no idea how to fix this.
-                    //await UpdateResult(registeredCompetitor);                 
+                    await _context.UpdateRegisteredCompetitor(registeredCompetitor);                  
+                    await UpdateResult(registeredCompetitor);                 
                 }
             }
 
