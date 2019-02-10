@@ -4,7 +4,7 @@
 This application provides an Event Director with direct management capabilities for an entire Dance Event. This include the creation of participants, competitions as well as event registration.
 
 ### Deployed Site
-https://clientsidedancefellows20190204111542.azurewebsites.net/
+https://dancefellows.azurewebsites.net/
 
 ## Example Usage
 ![Home View](assets/view_home.png)
