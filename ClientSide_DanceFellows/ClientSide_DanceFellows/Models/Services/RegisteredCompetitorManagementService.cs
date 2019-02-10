@@ -53,19 +53,6 @@ namespace ClientSide_DanceFellows.Models.Services
         }
 
         /// <summary>
-        /// Searches for RegisteredCompetitor using composite key info and removes from DB.
-        /// </summary>
-        /// <param name="participantID"></param>
-        /// <param name="competitionID"></param>
-        //public async Task DeleteRegisteredCompetitor(int participantID, int competitionID)
-        //{
-        //    RegisteredCompetitor registeredCompetitor = _context.RegisteredCompetitors.FirstOrDefault(rc => rc.CompetitionID == competitionID && rc.ParticipantID == participantID);
-
-        //    _context.RegisteredCompetitors.Remove(registeredCompetitor);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        /// <summary>
         /// Searches for RegisteredCompetitor using composite key info returns RegisteredCompetitor
         /// </summary>
         public async Task<RegisteredCompetitor> GetRegisteredCompetitor(int participantID, int competitionID)

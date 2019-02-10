@@ -113,7 +113,7 @@ namespace ServicesTestSuite
             [Fact]
             public async void CanGetRegisteredCompetitors()
             {
-                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetRegisteredCompetitors").Options;
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetRegisteredCompetitors2").Options;
 
                 using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
                 {
@@ -130,6 +130,7 @@ namespace ServicesTestSuite
                 }
             }
         }
+
         public class ParticipantServicesTestSuite
         {
             public Participant CreateParticipant()
@@ -245,5 +246,314 @@ namespace ServicesTestSuite
                 }
             }
         }
+
+        public class RegisteredCompetitorManagementServicesTestSuite
+        {
+            
+            public Competition CreateCompetition()
+            {
+                RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { CompetitionID = 1, ParticipantID = 1 };
+                List<RegisteredCompetitor> listRC = new List<RegisteredCompetitor>();
+                listRC.Add(testRegisteredCompetitor);
+                Competition testCompetition = new Competition() { ID = 1, CompType = CompType.Classic, Level = Level.Novice, RegisteredCompetitors = listRC };
+
+                return testCompetition;
+            }
+
+            public Competition CreateCompetition1()
+            {
+                RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { CompetitionID = 2, ParticipantID = 2 };
+                List<RegisteredCompetitor> listRC = new List<RegisteredCompetitor>();
+                listRC.Add(testRegisteredCompetitor);
+                Competition testCompetition = new Competition() { ID = 2, CompType = CompType.Classic, Level = Level.Novice, RegisteredCompetitors = listRC };
+
+                return testCompetition;
+            }
+
+            public Participant CreateParticipant()
+            {
+                RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { CompetitionID = 3, ParticipantID = 13 };
+                List<RegisteredCompetitor> listRC = new List<RegisteredCompetitor>();
+                listRC.Add(testRegisteredCompetitor);
+                Participant testParticipant = new Participant() { ID = 1, WSC_ID = 1, FirstName = "JimBob", LastName = "Franklin", MinLevel = Level.Novice, MaxLevel = Level.Advanced, EligibleCompetitor = true, RegisteredCompetitors = listRC };
+
+                return testParticipant;
+            }
+
+            public Participant CreateParticipant1()
+            {
+                RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { CompetitionID = 4, ParticipantID = 4 };
+                List<RegisteredCompetitor> listRC = new List<RegisteredCompetitor>();
+                listRC.Add(testRegisteredCompetitor);
+                Participant testParticipant = new Participant() { ID = 2, WSC_ID = 1, FirstName = "Ricky", LastName = "Bobby", MinLevel = Level.Novice, MaxLevel = Level.Advanced, EligibleCompetitor = true, RegisteredCompetitors = listRC };
+
+                return testParticipant;
+            }
+
+            public RegisteredCompetitor CreateRegisteredCompetitor()
+            {
+                RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { ParticipantID = 1, CompetitionID = 1, Role = Role.Lead, Placement = Placement.Position1, BibNumber = 100, ChiefJudgeScore = 9, JudgeOneScore = 9, JudgeTwoScore = 9, JudgeThreeScore = 9, JudgeFourScore = 9, JudgeFiveScore = 9, JudgeSixScore = 9, Participant = CreateParticipant(), Competition = CreateCompetition(), EventID = 1 };
+
+                return testRegisteredCompetitor;
+            }
+
+            [Fact]
+            public async void CanCreateRegisteredCompetitor()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("CreateRegisteredCompetitor").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor);
+
+                    var result = context.RegisteredCompetitors.FirstOrDefault(a => a.ParticipantID == testRegisteredCompetitor.ParticipantID && a.CompetitionID == testRegisteredCompetitor.CompetitionID);
+
+                    Assert.Equal(testRegisteredCompetitor, result);
+                }
+            }
+
+            [Fact]
+            public async void DeleteRegisteredCompetitor()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("DeleteRegisteredCompetitor").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor);
+                    await registeredCompetitorService.DeleteRegisteredCompetitor(testRegisteredCompetitor);
+
+                    var result = context.RegisteredCompetitors.FirstOrDefault(a => a.ParticipantID == testRegisteredCompetitor.ParticipantID && a.CompetitionID == testRegisteredCompetitor.CompetitionID);
+
+                    Assert.Null(result);
+                }
+            }
+
+            [Fact]
+            public async void GetRegisteredCompetitor()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetRegisteredCompetitor").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor);
+                    var result = context.RegisteredCompetitors.FirstOrDefault(a => a.ParticipantID == testRegisteredCompetitor.ParticipantID && a.CompetitionID == testRegisteredCompetitor.CompetitionID);
+                    RegisteredCompetitor actual = await registeredCompetitorService.GetRegisteredCompetitor(testRegisteredCompetitor.ParticipantID, testRegisteredCompetitor.CompetitionID);
+
+                    RegisteredCompetitor expected = context.RegisteredCompetitors.FirstOrDefault(a => a.ParticipantID == testRegisteredCompetitor.ParticipantID && a.CompetitionID == testRegisteredCompetitor.CompetitionID);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Fact]
+            public async void GetRegisteredCompetitors()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("GetRegisteredCompetitorsTwo").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitor testRegisteredCompetitor1 = new RegisteredCompetitor { ParticipantID = 2, CompetitionID = 1, Role = Role.Lead, Placement = Placement.Position2, BibNumber = 101, ChiefJudgeScore = 8, JudgeOneScore = 8, JudgeTwoScore = 8, JudgeThreeScore = 8, JudgeFourScore = 8, JudgeFiveScore = 8, JudgeSixScore = 8, Participant = CreateParticipant1(), Competition = CreateCompetition1(), EventID = 1 };
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor);
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor1);
+                    IEnumerable<RegisteredCompetitor> expected = new List<RegisteredCompetitor> { testRegisteredCompetitor, testRegisteredCompetitor1 };
+                    IEnumerable<RegisteredCompetitor> actual = await registeredCompetitorService.GetRegisteredCompetitors();
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Fact]
+            public async void CanSearchRegisteredCompetitor()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("SearchRegisteredCompetitor").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    Competition testCompetition = new Competition() { ID = 1, CompType = CompType.Classic, Level = Level.Novice };
+                    Competition testCompetition2 = new Competition() { ID = 2, CompType = CompType.JackAndJill, Level = Level.Advanced };
+
+                    RegisteredCompetitor testRegisteredCompetitor = new RegisteredCompetitor { ParticipantID = 1, CompetitionID = 1, Role = Role.Lead, Placement = Placement.Position2, BibNumber = 101, ChiefJudgeScore = 8, JudgeOneScore = 8, JudgeTwoScore = 8, JudgeThreeScore = 8, JudgeFourScore = 8, JudgeFiveScore = 8, JudgeSixScore = 8, Competition = testCompetition};
+
+                    RegisteredCompetitor testRegisteredCompetitor1 = new RegisteredCompetitor { ParticipantID = 2, CompetitionID = 1, Role = Role.Lead, Placement = Placement.Position2, BibNumber = 101, ChiefJudgeScore = 8, JudgeOneScore = 8, JudgeTwoScore = 8, JudgeThreeScore = 8, JudgeFourScore = 8, JudgeFiveScore = 8, JudgeSixScore = 8, Competition = testCompetition };
+
+                    RegisteredCompetitor testRegisteredCompetitor2 = new RegisteredCompetitor { ParticipantID = 3, CompetitionID = 2, Role = Role.Lead, Placement = Placement.Position2, BibNumber = 101, ChiefJudgeScore = 8, JudgeOneScore = 8, JudgeTwoScore = 8, JudgeThreeScore = 8, JudgeFourScore = 8, JudgeFiveScore = 8, JudgeSixScore = 8, Competition = testCompetition2 };
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    CompetitionManagementService competitionService = new CompetitionManagementService(context);
+                    await competitionService.CreateCompetition(testCompetition);
+                    await competitionService.CreateCompetition(testCompetition2);
+
+
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor);
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor1);
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor2);
+
+
+                    IEnumerable<RegisteredCompetitor> expected = new List<RegisteredCompetitor> { testRegisteredCompetitor, testRegisteredCompetitor1 };
+                    IEnumerable<RegisteredCompetitor> actual = await registeredCompetitorService.SearchRegisteredCompetitor("class");
+
+                    Assert.Equal(expected, actual);
+
+                }
+            }
+
+            [Fact]
+            public async void CanUpdateRegisteredCompetitor()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("UpdateRegisteredCompetitor").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    await registeredCompetitorService.CreateRegisteredCompetitor(testRegisteredCompetitor);
+
+                    testRegisteredCompetitor.ChiefJudgeScore = 10;
+
+                    await registeredCompetitorService.UpdateRegisteredCompetitor(testRegisteredCompetitor);
+
+                    var result = context.RegisteredCompetitors.FirstOrDefault(a => a.ParticipantID == testRegisteredCompetitor.ParticipantID && a.CompetitionID == testRegisteredCompetitor.CompetitionID);
+
+                    Assert.Equal(testRegisteredCompetitor, result);
+
+                }
+            }
+
+            [Fact]
+            public async void CanListValidCompetitors()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("ListValidCompetitors").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    ParticipantManagementService participantManagementService = new ParticipantManagementService(context);
+
+                    Participant testParticipant = new Participant()
+                    {
+                        ID = 1,
+                        WSC_ID = 1,
+                        FirstName = "JimBob",
+                        LastName = "Franklin",
+                        MinLevel = Level.Novice,
+                        MaxLevel = Level.Advanced,
+                        EligibleCompetitor = true,
+                    };
+
+                    Participant testParticipant1 = new Participant()
+                    {
+                        ID = 2,
+                        WSC_ID = 0,
+                        FirstName = "Ricky",
+                        LastName = "Bobby",
+                        MinLevel = Level.Novice,
+                        MaxLevel = Level.Advanced,
+                        EligibleCompetitor = false,
+                    };
+
+                    await participantManagementService.CreateParticipant(testParticipant);
+                    await participantManagementService.CreateParticipant(testParticipant1);
+
+                    IEnumerable<Participant> expected = new List<Participant> { testParticipant };
+                    IEnumerable<Participant> actual = await registeredCompetitorService.ListValidCompetitors();
+
+                    Assert.Equal(expected, actual);
+
+                }
+            }
+
+            [Fact]
+            public async void CanListCompetitions()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("ListCompetitions").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    CompetitionManagementService competitionManagementService = new CompetitionManagementService(context);
+
+                    Competition testCompetition = new Competition() { ID = 1, CompType = CompType.Classic, Level = Level.Novice };
+                    Competition testCompetition2 = new Competition() { ID = 2, CompType = CompType.JackAndJill, Level = Level.Advanced };
+
+                    await competitionManagementService.CreateCompetition(testCompetition);
+                    await competitionManagementService.CreateCompetition(testCompetition2);
+
+                    IEnumerable<Competition> expected = new List<Competition> { testCompetition, testCompetition2 };
+                    IEnumerable<Competition> actual = await registeredCompetitorService.ListCompetitions();
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Fact]
+            public async void CanShowParticipant()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("ShowParticipant").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    ParticipantManagementService participantManagementService = new ParticipantManagementService(context);
+
+                    await participantManagementService.CreateParticipant(testRegisteredCompetitor.Participant);
+
+                    Participant expected = testRegisteredCompetitor.Participant;
+
+                    Participant actual = await registeredCompetitorService.ShowParticipant(testRegisteredCompetitor.Participant.ID);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+
+            [Fact]
+            public async void CanShowCompetition()
+            {
+                DbContextOptions<ClientSideDanceFellowsDbContext> options = new DbContextOptionsBuilder<ClientSideDanceFellowsDbContext>().UseInMemoryDatabase("ShowCompetition").Options;
+
+                using (ClientSideDanceFellowsDbContext context = new ClientSideDanceFellowsDbContext(options))
+                {
+                    RegisteredCompetitor testRegisteredCompetitor = CreateRegisteredCompetitor();
+
+                    RegisteredCompetitorManagementService registeredCompetitorService = new RegisteredCompetitorManagementService(context);
+
+                    CompetitionManagementService competitionManagementService = new CompetitionManagementService(context);
+
+                    await competitionManagementService.CreateCompetition(testRegisteredCompetitor.Competition);
+
+                    Competition expected = testRegisteredCompetitor.Competition;
+
+                    Competition actual = await registeredCompetitorService.ShowCompetition(testRegisteredCompetitor.Competition.ID);
+
+                    Assert.Equal(expected, actual);
+                }
+            }
+        }    
     }       
 }
