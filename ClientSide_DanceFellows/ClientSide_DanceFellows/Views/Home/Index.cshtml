@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "Dance Fellows - Director's Dashboard";
+    Layout = "_Layout";
+}
+<br />
+<h1>Director's Dashboard</h1>
+
+<div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Create Competition</h5>
+                    <p class="card-text">Create a competition for your event</p>
+                    <a href="/Competition/Create" class="btn btn-primary">Create Competition</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Competitions</h5>
+                    <p class="card-text">Manage competitions at your event</p>
+                    <a href="/Competition" class="btn btn-primary">Manage Competitions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Participants</h5>
+                    <p class="card-text">Manage competitors and participants at your event</p>
+                    <a href="/Participant" class="btn btn-primary">Manage Participants</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Competitors</h5>
+                    <p class="card-text">Manage registered competitors at your event</p>
+                    <a href="/RegisteredCompetitor" class="btn btn-primary">Manage Competitors</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

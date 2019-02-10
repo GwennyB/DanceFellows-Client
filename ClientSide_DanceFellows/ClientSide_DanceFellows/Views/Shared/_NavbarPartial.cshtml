@@ -1,0 +1,28 @@
+﻿<div class="container" style="margin-left:-13px">
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a href="#" class="nav-link dropdown-toggle btn btn-primary" data-toggle="dropdown" style="margin-right:10px">Manage Participants</a>
+            <div class="dropdown-menu">
+                <a asp-controller="Participant" class="btn" asp-action="Index">View All Participants</a>
+                <div class="dropdown-divider"></div>
+                <a asp-controller="Participant" class="btn" asp-action="Create">Add New Participant</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link dropdown-toggle btn btn-primary" data-toggle="dropdown" style="margin-right:10px">Manage Competitions</a>
+            <div class="dropdown-menu">
+                <a asp-controller="Competition" class="btn" asp-action="Index">View All Competitions</a>
+                <div class="dropdown-divider"></div>
+                <a asp-controller="Competition" class="btn" asp-action="Create">Add New Competition</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link dropdown-toggle btn btn-primary" data-toggle="dropdown" style="margin-right:10px">Manage Competitors</a>
+            <div class="dropdown-menu">
+                <a href="/RegisteredCompetitor" class="btn">View All Competitors</a>
+            </div>
+        </li>        
+    </ul>
+</div>
+<br />
