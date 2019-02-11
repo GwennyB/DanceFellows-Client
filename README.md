@@ -81,3 +81,14 @@ As an event director, I want all data entered into my website to be persisted.
 
 ## Wireframe
 ![Wireframe](assets/wireframe.png)
+
+
+## Credit
+Dance Fellows has been a collaborative effort by:
+  Andrew Quamme https://github.com/andrewquamme  
+  Blaise Clark https://github.com/Dervival  
+  Jason Hiskey https://github.com/jlhiskey  
+  Gwen Zubatch https://github.com/GwennyB  
+
+This site was designed for use with the Dance Fellows API:  
+https://github.com/GwennyB/DanceFellows-API/blob/master/README.md
