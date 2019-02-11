@@ -94,7 +94,7 @@ namespace ClientSide_DanceFellows.Controllers
                 await CreateResult(registeredCompetitor);
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return View(registeredCompetitor);
         }
 
@@ -117,6 +117,7 @@ namespace ClientSide_DanceFellows.Controllers
         [HttpPost, ActionName("Score")]
         public async Task<IActionResult> Score(int[] participantID, int[] competitionID, Role[] role, int[] bibNumber, int[] chiefJudgeScore, int[] judgeOneScore, int[] judgeTwoScore, int[] judgeThreeScore, int[] judgeFourScore, int[] judgeFiveScore, int[] judgeSixScore)
         {
+            List<RegisteredCompetitor> roster = new List<RegisteredCompetitor>();
             for (int i = 0; i < participantID.Length; i++)
             {
                 RegisteredCompetitor registeredCompetitor = new RegisteredCompetitor();
@@ -147,14 +148,15 @@ namespace ClientSide_DanceFellows.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    await _context.UpdateRegisteredCompetitor(registeredCompetitor);                  
-                    await UpdateResult(registeredCompetitor);                 
+                    await _context.UpdateRegisteredCompetitor(registeredCompetitor);
+                    roster.Add(registeredCompetitor);
                 }
             }
+            await UpdateResult(roster);
 
             return RedirectToAction("Index", "Home");
         }
-        
+
 
         /// <summary>
         /// Searches for registeredCompetitor and if found will load Delete page with received registered competitior.
@@ -213,9 +215,9 @@ namespace ClientSide_DanceFellows.Controllers
         //}
         //private string path = "http://localhost:57983/";
 
-        
+
         private static HttpClient client = new HttpClient();
-        private string path = "https://apidancefellows20190204115607.azurewebsites.net/";
+        private string path = "https://dancefellowsapi.azurewebsites.net/";
 
         /// <summary>
         /// Creates a new API DB entry from input Registered Competitor.
@@ -233,7 +235,7 @@ namespace ClientSide_DanceFellows.Controllers
 
             try
             {
-                HttpResponseMessage response = await client.PostAsJsonAsync(path+"Results/Create", data);
+                HttpResponseMessage response = await client.PostAsJsonAsync(path + "Results/Create", data);
                 response.EnsureSuccessStatusCode();
                 Response.StatusCode = 200;
                 return Ok();
@@ -244,32 +246,33 @@ namespace ClientSide_DanceFellows.Controllers
                 return NotFound();
             }
         }
-        
+
         /// <summary>
         /// Updates an existing API RegisteredCompetitor.
         /// </summary>
         /// <param name="reg"></param>
         /// <returns>Response Code</returns>
-        private async Task<IActionResult> UpdateResult(RegisteredCompetitor reg)
+        private async Task UpdateResult(List<RegisteredCompetitor> roster)
         {
-            if (reg == null)
+            foreach (RegisteredCompetitor reg in roster)
             {
-                return NotFound();
-            }
+                if (reg == null)
+                {
+                    return;
+                }
 
-            List<object> data = await BuildRegistrationObject(reg);
+                List<object> data = await BuildRegistrationObject(reg);
 
-            try
-            {
-                HttpResponseMessage response = await client.PutAsJsonAsync(path+"Results/Update", data);
-                response.EnsureSuccessStatusCode();
-                Response.StatusCode = 200;
-                return Ok();
-            }
-            catch (Exception)
-            {
-                Response.StatusCode = 400;
-                return NotFound();
+                try
+                {
+                    HttpResponseMessage response = await client.PutAsJsonAsync(path + "Results/Update", data);
+                    response.EnsureSuccessStatusCode();
+                    Response.StatusCode = 200;
+                }
+                catch (Exception)
+                {
+                    Response.StatusCode = 400;
+                }
             }
         }
 
