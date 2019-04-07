@@ -1,3 +1,5 @@
+## *** NO LONGER DEPLOYED ON AZURE ***  
+
 # Dance Fellows (Client Side)
 
 ## Overview
